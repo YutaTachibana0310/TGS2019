@@ -16,6 +16,7 @@
 /**************************************
 グローバル変数
 ***************************************/
+Enemy *enemy[16];
 
 /**************************************
 初期化処理
@@ -23,16 +24,20 @@
 void GameScene::Init()
 {
 	ResourceManager::Instance()->LoadTexture("enemy01", "data/bullet001.png");
-
-	enemy = new Enemy;
+	for (int i = 0; i < 16; i++)
+	{
+		enemy[i] = new Enemy;
+	}
 }
-
 /**************************************
 終了処理
 ***************************************/
 void GameScene::Uninit()
 {
-	delete enemy;
+	for (int i = 0; i < 16; i++)
+	{
+		delete enemy[i];
+	}
 }
 
 /**************************************
@@ -40,7 +45,10 @@ void GameScene::Uninit()
 ***************************************/
 void GameScene::Update(HWND hWnd)
 {
-	enemy->UpdateEnemy();
+	for (int i = 0; i < 16; i++)
+	{
+		enemy[i]->UpdateEnemy();
+	}
 }
 
 /**************************************
@@ -48,5 +56,8 @@ void GameScene::Update(HWND hWnd)
 ***************************************/
 void GameScene::Draw()
 {
-	enemy->DrawEnemy();
+	for (int i = 0; i < 16; i++)
+	{
+		enemy[i]->DrawEnemy();
+	}
 }
