@@ -50,7 +50,7 @@ Enemy::Enemy()
 	collider = new BoxCollider3D(BoxCollider3DTag::Enemy, &transform.pos);
 	collider->active = true;
 
-	transform.pos = D3DXVECTOR3(ENEMY_INIT_POS_X, ENEMY_INIT_POS_Y, 0.0f);	// ˆÊ’u‚ğ‰Šú‰»
+	transform.pos = D3DXVECTOR3(rand()%1001, rand()%801, 0.0f);	// ˆÊ’u‚ğ‰Šú‰»
 	transform.rot = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	transform.scale = D3DXVECTOR3(1.0f, 1.0f, 1.0f);
 	use = true;
