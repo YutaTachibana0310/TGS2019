@@ -12,8 +12,8 @@
 ƒ}ƒNƒ’è‹`
 ***************************************/
 
-static float initVelocity = 500.0f;
-static float lastVelocity = -700.0f;
+static float initVelocity = 10.0f;
+static float lastVelocity = -20.0f;
 
 /**************************************
 “üêˆ—
@@ -36,7 +36,7 @@ int PlayerJump::OnUpdate(Player* entity)
 
 	entity->transform.pos += entity->velocity;
 
-	float t = entity->cntFrame / 30.0f;
+	float t = entity->cntFrame / 60.0f;
 	entity->velocity.y = Easing<float>::GetEasingValue(t, &initVelocity, &lastVelocity, EasingType::InOutCubic);
 
 	if(entity->IsCheckHitGround())
