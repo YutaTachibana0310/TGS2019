@@ -15,6 +15,7 @@
 #include "camera.h"
 #include "Framework/ResourceManager.h"
 #include "camera.h"
+#include "Slice.h"
 
 /**************************************
 プロトタイプ宣言
@@ -34,7 +35,7 @@ void DrawSliceEffect();
 /**************************************
 グローバル変数
 ***************************************/
-Enemy *enemy[16];
+Enemy *enemy[ENEMY_MAX];
 
 #ifdef _DEBUG
 
@@ -44,6 +45,8 @@ const char *FileName =
 };
 SliceData wk;
 
+int no = 0;
+
 #endif
 
 
@@ -52,9 +55,7 @@ SliceData wk;
 ***************************************/
 void GameScene::Init()
 {
-	ResourceManager::Instance()->LoadTexture("enemy01", "data/bullet001.png");
-
-	for (int i = 0; i < 16; i++)
+	for (int i = 0; i < ENEMY_MAX; i++)
 	{
 		enemy[i] = new Enemy;
 	}
@@ -78,7 +79,7 @@ void GameScene::Init()
 ***************************************/
 void GameScene::Uninit()
 {
-	for (int i = 0; i < 16; i++)
+	for (int i = 0; i < ENEMY_MAX; i++)
 	{
 		delete enemy[i];
 	}
@@ -101,8 +102,9 @@ void GameScene::Update(HWND hWnd)
 	camera->pos.z = CAMERA_TARGETLENGTH_Z;
 	camera->target.y = camera->pos.y = 0.0f;
 
-	for (int i = 0; i < 16; i++)
+	for (int i = 0; i < ENEMY_MAX; i++)
 	{
+		enemy[i]->MoveEnemy(player->transform.pos);
 		enemy[i]->UpdateEnemy();
 	}
 
@@ -112,6 +114,14 @@ void GameScene::Update(HWND hWnd)
 	UpdateSliceEffect();
 
 	particleManager->Update();
+#ifdef _DEBUG
+	if (GetKeyboardTrigger(DIK_X))
+	{
+		SliceEnemy(enemy[no], player->transform.pos);
+		no = (no + 1) % 16 ;
+	}
+
+#endif
 }
 
 /**************************************
@@ -127,7 +137,7 @@ void GameScene::Draw()
 	pDevice->SetRenderState(D3DRS_ZENABLE, false);
 	ground->Draw();
 
-	for (int i = 0; i < 16; i++)
+	for (int i = 0; i < ENEMY_MAX; i++)
 	{
 		enemy[i]->DrawEnemy();
 	}

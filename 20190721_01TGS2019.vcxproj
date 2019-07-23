@@ -186,6 +186,7 @@
     <ClCompile Include="PostEffect\SpikeNoiseController.cpp" />
     <ClCompile Include="PostEffect\StrongBlurFilter.cpp" />
     <ClCompile Include="ResultScene.cpp" />
+    <ClCompile Include="Slice.cpp" />
     <ClCompile Include="SliceEffect.cpp" />
     <ClCompile Include="sound.cpp" />
     <ClCompile Include="soundEffectManager.cpp" />
@@ -261,6 +262,7 @@
     <ClInclude Include="PostEffect\SpikeNoiseController.h" />
     <ClInclude Include="PostEffect\StrongBlurFilter.h" />
     <ClInclude Include="ResultScene.h" />
+    <ClInclude Include="Slice.h" />
     <ClInclude Include="SliceEffect.h" />
     <ClInclude Include="sound.h" />
     <ClInclude Include="soundEffectManager.h" />

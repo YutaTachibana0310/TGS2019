@@ -11,18 +11,23 @@
 //=====================================================
 // マクロ定義
 //=====================================================
-#define ENEMY_MAX				(50)	// エネミーの総数
+#define ENEMY_MAX				(20)	// エネミーの総数
 
 //=====================================================
 // エネミータイプの列挙
 //=====================================================
 enum ENEMYTYPE
 {
-	ENEMYTYPE_MIN,
 	ENEMYTYPE_01,
 	ENEMYTYPE_02,
 	ENEMYTYPE_03,
 	ENEMYTYPE_MAX,
+};
+
+enum ENEMYMOVE
+{
+	MOVE_01,
+	MOVE_02,
 };
 
 //=====================================================
@@ -32,14 +37,20 @@ class Enemy
 {
 public:
 /* 変数 */
-	Transform		transform;
-	bool			use;
-	VERTEX_3D		*vtx;
-	D3DXMATRIX		mtxWorld;
-
 	LPDIRECT3DVERTEXBUFFER9	D3DVtxBuffEnemy;
 	LPDIRECT3DTEXTURE9		D3DTextureEnemy;
+	Transform				transform;
+	VERTEX_3D				*vtx;
+	D3DXMATRIX				mtxWorld;
 	int						texNum;
+	int						cntFrame;
+	float					move;
+	bool					use;
+	const char *fileName[ENEMYTYPE_MAX]
+	{
+		"data/TEXTURE/bullet001.png",
+	};
+
 
 /* 関数 */
 	Enemy();
@@ -61,6 +72,10 @@ public:
 	// 戻り値：なし
 	//===============================================================================
 	void SetEnemy(int type, D3DXVECTOR3 pos);
+	void MoveTypeEnemy(int type);
+
+	void MoveEnemy(D3DXVECTOR3 pos);
+
 };
 
 
