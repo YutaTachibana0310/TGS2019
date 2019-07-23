@@ -13,6 +13,7 @@
 #include "Player.h"
 #include "Framework\SkyBox.h"
 #include "enemy.h"
+#include "Ground.h"
 
 /**************************************
 É}ÉNÉçíËã`
@@ -31,6 +32,7 @@ public:
 
 	Player *player;
 	SkyBox *skybox;
+	Ground *ground;
 };
 
 #endif

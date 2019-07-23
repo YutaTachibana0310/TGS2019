@@ -15,7 +15,6 @@
 #include "camera.h"
 #include "Framework/ResourceManager.h"
 #include "camera.h"
-#include "light.h"
 
 /**************************************
 プロトタイプ宣言
@@ -62,6 +61,7 @@ void GameScene::Init()
 
 	player = new Player();
 	skybox = new SkyBox(D3DXVECTOR3(SKYBOX_SIZE*2, SKYBOX_SIZE, SKYBOX_SIZE), D3DXVECTOR2(6.0f, 1.0f));
+	ground = new Ground();
 
 	skybox->LoadTexture("data/TEXTURE/skybox.png");
 
@@ -82,6 +82,7 @@ void GameScene::Uninit()
 
 	SAFE_DELETE(player);
 	SAFE_DELETE(skybox);
+	SAFE_DELETE(ground);
 }
 
 /**************************************
@@ -109,23 +110,26 @@ void GameScene::Update(HWND hWnd)
 ***************************************/
 void GameScene::Draw()
 {
+	LPDIRECT3DDEVICE9 pDevice = GetDevice();
+
 	skybox->Draw();
+
+	pDevice->SetRenderState(D3DRS_LIGHTING, false);
+	pDevice->SetRenderState(D3DRS_ZENABLE, false);
+	ground->Draw();
 
 	for (int i = 0; i < 16; i++)
 	{
 		enemy[i]->DrawEnemy();
 	}
 
-	LPDIRECT3DDEVICE9 pDevice = GetDevice();
-
-
-	pDevice->SetRenderState(D3DRS_LIGHTING, false);
 
 	player->Draw();
 
-	pDevice->SetRenderState(D3DRS_LIGHTING, true);
-
 	DrawSliceEffect();
+
+	pDevice->SetRenderState(D3DRS_LIGHTING, true);
+	pDevice->SetRenderState(D3DRS_ZENABLE, true);
 }
 
 

@@ -165,6 +165,7 @@ void Player::Update()
 	{
 		velocity.y = 0.0f;
 		jumpInterval = 0;
+		transform.pos.y = 0.0f;
 	}
 
 	DebugLog("%f, %f, %f", transform.pos.x, transform.pos.y, transform.pos.z);

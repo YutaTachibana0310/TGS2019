@@ -26,6 +26,7 @@ public:
 
 	LPDIRECT3DVERTEXBUFFER9 vtxBuff;
 	LPDIRECT3DTEXTURE9 texture;
+	LPDIRECT3DTEXTURE9 texture2;
 	Transform transform;
 };
 
