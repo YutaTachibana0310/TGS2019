@@ -23,13 +23,7 @@
 ÉOÉçÅ[ÉoÉãïœêî
 ***************************************/
 static const TCHAR* BgmFileName[BGM_MAX] = {
-	_T("data/SOUND/LAST_GUARDIAN.wav"),
-	_T("data/SOUND/Sword_dance.wav"),
-	_T("data/SOUND/P.L.A.Y..wav"),
-	_T("data/SOUND/Landing+On+The+Moon_jingle.wav"),
-	_T("data/SOUND/gameover2.wav"),
-	_T("data/SOUND/To_the_Next_Generation.wav"),
-	_T("data/SOUND/Traffic_Jam.wav"),
+	_T("data/TGS_BGM.wav"),
 };
 
 static BGM bgmData[BGM_MAX];

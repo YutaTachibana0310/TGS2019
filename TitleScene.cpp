@@ -5,9 +5,9 @@
 //
 //=====================================
 #include "TitleScene.h"
-#include "GameScene.h"
-
 #include "Framework\SkyBox.h"
+
+#include "Game.h"
 
 #define	TITLE_POS_X			(640-480)							// タイトルの表示位置
 #define	TITLE_POS_Y			(105)								// タイトルの表示位置
@@ -85,13 +85,17 @@ void TitleScene::Uninit()
 
 }
 
+#include "input.h"
 /**************************************
 更新処理
 ***************************************/
 void TitleScene::Update(HWND hWnd)
 {
-
-
+	if (GetAttackButtonTrigger())
+	{
+		ChangeScene(SceneGame);
+	}
+	
 
 }
 

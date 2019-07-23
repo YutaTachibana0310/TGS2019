@@ -5,6 +5,7 @@
 //
 //=====================================
 #include "ResultScene.h"
+#include "Result.h"
 
 /**************************************
 マクロ定義
@@ -19,7 +20,7 @@
 ***************************************/
 void ResultScene::Init()
 {
-
+	InitResult(0);
 }
 
 /**************************************
@@ -27,15 +28,18 @@ void ResultScene::Init()
 ***************************************/
 void ResultScene::Uninit()
 {
-
+	UninitResult();
 }
 
+#include "Game.h"
+#include "input.h"
 /**************************************
 更新処理
 ***************************************/
 void ResultScene::Update(HWND hWnd)
 {
-
+	if (GetAttackButtonTrigger())
+		ChangeScene(SceneTitle);
 }
 
 /**************************************
@@ -43,5 +47,5 @@ void ResultScene::Update(HWND hWnd)
 ***************************************/
 void ResultScene::Draw()
 {
-
+	DrawResult();
 }

@@ -18,6 +18,8 @@
 #include "GameScene.h"
 #include "ResultScene.h"
 
+#include "bgmManager.h"
+
 /**************************************
 マクロ定義
 ***************************************/
@@ -49,7 +51,7 @@ static LPDIRECT3DVERTEXBUFFER9 screenVtx;
 static IStateScene* fsm[SceneMax];
 
 //現在のシーン
-static Scene currentScene = SceneGame;
+static Scene currentScene = SceneTitle;
 
 /**************************************
 初期化処理
@@ -74,6 +76,9 @@ void InitGame(HINSTANCE hInstance, HWND hWnd)
 
 	RegisterDebugTimer("Main");
 
+	//InitBgmManager(0);
+	//PlayBGM(BGM_BATTLESCENE);
+
 	fsm[currentScene]->Init();
 }
 
@@ -86,6 +91,8 @@ void UninitGame()
 	UninitLight();
 	UninitDebugWindow(0);
 	UninitDebugTimer();
+
+	//UninitBgmManager(0);
 
 	fsm[currentScene]->Uninit();
 }
@@ -140,7 +147,7 @@ void DrawGame()
 	DebugLog("FPS:%d", GetCurrentFPS());
 //#endif
 
-
+	UpdateBgmManager();
 
 	DrawDebugWindow();
 }

@@ -22,7 +22,7 @@ using namespace std;
 
 #define PLAYER_TEX_SIZE_X		(1.0f / PLAYER_ANIM_LOOPMAX)
 #define PLAYER_TEX_SIZE_Y		(1.0f)
-#define PLAYER_MOVE_SPEED		(50.0f)
+#define PLAYER_MOVE_SPEED		(20.0f)
 
 #define PLAYER_ATKINTERVAL		(60)
 #define PLAYER_ATK_POS			(D3DXVECTOR3(80.0f, 0.0f, 0.0f))
@@ -173,7 +173,7 @@ void Player::Update()
 
 	DebugLog("%f, %f, %f", transform.pos.x, transform.pos.y, transform.pos.z);
 
-	//移動処理
+	//移動処
 	transform.pos += velocity;
 
 	//攻撃オブジェクトを更新

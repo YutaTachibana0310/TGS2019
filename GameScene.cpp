@@ -19,6 +19,7 @@
 #include "HitPoint.h"
 #include "Slice.h"
 #include "Framework\BoxCollider3D.h"
+#include "Game.h"
 
 /**************************************
 プロトタイプ宣言
@@ -134,6 +135,18 @@ void GameScene::Update(HWND hWnd)
 #endif
 
 	BoxCollider3D::UpdateCollision();
+
+	//エネミー全滅でリザルトへ
+	bool res = false;
+	for (int i = 0; i < ENEMY_MAX; i++)
+	{
+		res |= enemy[i]->use;
+	}
+
+	if (!res)
+	{
+		ChangeScene(SceneResult);
+	}
 }
 
 /**************************************

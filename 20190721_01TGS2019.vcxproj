@@ -186,6 +186,7 @@
     <ClCompile Include="PostEffect\SpikeNoise.cpp" />
     <ClCompile Include="PostEffect\SpikeNoiseController.cpp" />
     <ClCompile Include="PostEffect\StrongBlurFilter.cpp" />
+    <ClCompile Include="Result.cpp" />
     <ClCompile Include="ResultScene.cpp" />
     <ClCompile Include="Slice.cpp" />
     <ClCompile Include="SliceEffect.cpp" />
