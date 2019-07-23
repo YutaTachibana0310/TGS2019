@@ -35,6 +35,8 @@ void DrawSliceEffect();
 /**************************************
 グローバル変数
 ***************************************/
+Enemy *enemy[16];
+
 #ifdef _DEBUG
 
 const char *FileName =
@@ -45,6 +47,7 @@ SliceData wk;
 
 #endif
 
+
 /**************************************
 初期化処理
 ***************************************/
@@ -52,9 +55,13 @@ void GameScene::Init()
 {
 	ResourceManager::Instance()->LoadTexture("enemy01", "data/bullet001.png");
 
+	for (int i = 0; i < 16; i++)
+	{
+		enemy[i] = new Enemy;
+	}
+
 	player = new Player();
 	skybox = new SkyBox(D3DXVECTOR3(SKYBOX_SIZE*2, SKYBOX_SIZE, SKYBOX_SIZE), D3DXVECTOR2(6.0f, 1.0f));
-	enemy = new Enemy;
 
 	skybox->LoadTexture("data/TEXTURE/skybox.png");
 
@@ -63,15 +70,18 @@ void GameScene::Init()
 	InitSliceData();
 #endif
 }
-
 /**************************************
 終了処理
 ***************************************/
 void GameScene::Uninit()
 {
+	for (int i = 0; i < 16; i++)
+	{
+		delete enemy[i];
+	}
+
 	SAFE_DELETE(player);
 	SAFE_DELETE(skybox);
-	delete enemy;
 }
 
 /**************************************
@@ -79,14 +89,17 @@ void GameScene::Uninit()
 ***************************************/
 void GameScene::Update(HWND hWnd)
 {
+	for (int i = 0; i < 16; i++)
+	{
+		enemy[i]->UpdateEnemy();
+	}
+
 	player->Update();
 
 	Camera *camera = GetCameraAdr();
 	camera->target = camera->pos = player->transform.pos;
 	camera->pos.z = CAMERA_TARGETLENGTH_Z;
 	camera->target.y = camera->pos.y = 0.0f;
-
-	enemy->UpdateEnemy();
 
 	UpdateSliceEffect();
 }
@@ -96,17 +109,21 @@ void GameScene::Update(HWND hWnd)
 ***************************************/
 void GameScene::Draw()
 {
+	skybox->Draw();
+
+	for (int i = 0; i < 16; i++)
+	{
+		enemy[i]->DrawEnemy();
+	}
+
 	LPDIRECT3DDEVICE9 pDevice = GetDevice();
 
-	skybox->Draw();
 
 	pDevice->SetRenderState(D3DRS_LIGHTING, false);
 
 	player->Draw();
 
 	pDevice->SetRenderState(D3DRS_LIGHTING, true);
-
-	enemy->DrawEnemy();
 
 	DrawSliceEffect();
 }

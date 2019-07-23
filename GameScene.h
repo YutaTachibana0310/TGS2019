@@ -31,7 +31,6 @@ public:
 
 	Player *player;
 	SkyBox *skybox;
-	Enemy *enemy;
 };
 
 #endif

@@ -32,27 +32,27 @@ class Enemy
 {
 public:
 /* 変数 */
-	Transform		transform[ENEMY_MAX];
-	bool			use[ENEMY_MAX];
+	Transform		transform;
+	bool			use;
 	VERTEX_3D		*vtx;
 	D3DXMATRIX		mtxWorld;
 
-	LPDIRECT3DVERTEXBUFFER9	D3DVtxBuffEnemy[ENEMY_MAX];
-	LPDIRECT3DTEXTURE9		D3DTextureEnemy[ENEMYTYPE_MAX];
-	int						texNum[ENEMY_MAX];
+	LPDIRECT3DVERTEXBUFFER9	D3DVtxBuffEnemy;
+	LPDIRECT3DTEXTURE9		D3DTextureEnemy;
+	int						texNum;
 
 /* 関数 */
 	Enemy();
 	~Enemy();
 	void UpdateEnemy();
 	void DrawEnemy();
-	HRESULT MakeVertexEnemy(int eno, LPDIRECT3DDEVICE9 pDevice);
+	HRESULT MakeVertexEnemy(LPDIRECT3DDEVICE9 pDevice);
 	//===============================================================================
 	// 頂点座標の設定
 	// 第１引数：int index(バッファーのアドレス番号)
 	// 戻り値：なし
 	//===============================================================================
-	void SetVertexEnemy(int index);
+	void SetVertexEnemy(void);
 
 	//===============================================================================
 	// エネミーの設置
