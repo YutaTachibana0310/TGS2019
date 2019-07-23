@@ -8,6 +8,8 @@
 #define _PLAYER_H_
 
 #include "main.h"
+#include "PlayerAttack.h"
+
 #include "Framework\IStateMachine.h"
 
 #include <vector>
@@ -52,6 +54,7 @@ public:
 	void CheckAnimationFinish();
 
 	Transform transform;
+	PlayerAttack *attack;
 
 	std::vector<LPDIRECT3DTEXTURE9> textures;
 	LPDIRECT3DVERTEXBUFFER9 vtxBuff;
@@ -70,6 +73,8 @@ public:
 
 	int atkInterval;
 	int jumpInterval;
+
+
 };
 
 #endif

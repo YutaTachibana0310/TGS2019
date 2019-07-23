@@ -25,6 +25,7 @@ using namespace std;
 #define PLAYER_MOVE_SPEED		(50.0f)
 
 #define PLAYER_ATKINTERVAL		(60)
+#define PLAYER_ATK_POS			(D3DXVECTOR3(80.0f, 0.0f, 0.0f))
 
 static const char* TextureName[PlayerTextureMax] = {
 	"data/TEXTURE/PLAYER_ARUKI.png",
@@ -78,9 +79,14 @@ Player::Player()
 
 	textureID = IdleTexture;
 
+	//インスタンス作成
+	attack = new PlayerAttack();
+
 	//ステートマシン作成
 	stateMachine[IdleState] = new PlayerIdle();
 	stateMachine[JumpState] = new PlayerJump();
+
+	transform.pos.y = PLAYER_BASE_POS_Y;
 
 	currentState = IdleState;
 	ChangeState(IdleState);
@@ -155,18 +161,29 @@ void Player::Update()
 		if (currentState == PlayerState::IdleState)
 			textureID = IdleTexture;
 	}
+	velocity.x *= PLAYER_MOVE_SPEED;
 
 	//接地判定
 	if (IsCheckHitGround())
 	{
 		velocity.y = 0.0f;
 		jumpInterval = 0;
+		transform.pos.y = PLAYER_BASE_POS_Y;
 	}
 
-	DebugLog("%d, %d, %d", transform.pos.x, transform.pos.y, transform.pos.z);
+	DebugLog("%f, %f, %f", transform.pos.x, transform.pos.y, transform.pos.z);
 
 	//移動処理
 	transform.pos += velocity;
+
+	//攻撃オブジェクトを更新
+	if (GetAttackButtonTrigger() && !attack->active)
+	{
+		attack->Init();
+	}
+	attack->transform.pos = transform.pos + PLAYER_ATK_POS * cosf(transform.rot.y);
+	attack->transform.rot = transform.rot;
+	attack->Update();
 }
 
 /**************************************
@@ -189,7 +206,11 @@ void Player::Draw()
 
 	pDevice->DrawPrimitive(D3DPT_TRIANGLESTRIP, 0, NUM_POLYGON);
 
+	//攻撃オブジェクト描画
+	attack->Draw();
+
 	pDevice->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
+
 }
 
 /**************************************
@@ -206,7 +227,7 @@ void Player::ChangeState(PlayerState next)
 ***************************************/
 bool Player::IsCheckHitGround()
 {
-	if (velocity.y < 0.0f && transform.pos.y < 0.0f)
+	if (velocity.y < 0.0f && transform.pos.y < PLAYER_BASE_POS_Y)
 		return true;
 
 	return false;
