@@ -20,7 +20,7 @@ BoxCollider3DTag—ñ‹“Žq
 ***************************************/
 enum class BoxCollider3DTag
 {
-	PlayerBomber,
+	PlayerAttack,
 	Enemy,
 	Max
 };

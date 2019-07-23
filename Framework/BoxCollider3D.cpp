@@ -165,20 +165,20 @@ void BoxCollider3D::SetPosAddress(D3DXVECTOR3 *pPos)
 ***************************************/
 void BoxCollider3D::UpdateCollision()
 {
-	//PlayerBomber‚ÆEnemy‚ÅÕ“Ë”»’è
-	for (auto &bomber : checkDictionary[BoxCollider3DTag::PlayerBomber])
-	{
-		if (!bomber->active)
-			continue;
+	////PlayerBomber‚ÆEnemy‚ÅÕ“Ë”»’è
+	//for (auto &bomber : checkDictionary[BoxCollider3DTag::PlayerBomber])
+	//{
+	//	if (!bomber->active)
+	//		continue;
 
-		for (auto &enemy : checkDictionary[BoxCollider3DTag::Enemy])
-		{
-			if (!enemy->active)
-				continue;
+	//	for (auto &enemy : checkDictionary[BoxCollider3DTag::Enemy])
+	//	{
+	//		if (!enemy->active)
+	//			continue;
 
-			bomber->CheckCollision(enemy);
-		}
-	}
+	//		bomber->CheckCollision(enemy);
+	//	}
+	//}
 }
 
 /**************************************
