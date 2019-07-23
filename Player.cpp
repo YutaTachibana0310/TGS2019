@@ -86,6 +86,8 @@ Player::Player()
 	stateMachine[IdleState] = new PlayerIdle();
 	stateMachine[JumpState] = new PlayerJump();
 
+	transform.pos.y = PLAYER_BASE_POS_Y;
+
 	currentState = IdleState;
 	ChangeState(IdleState);
 }
@@ -159,12 +161,14 @@ void Player::Update()
 		if (currentState == PlayerState::IdleState)
 			textureID = IdleTexture;
 	}
+	velocity.x *= PLAYER_MOVE_SPEED;
 
 	//ê⁄ínîªíË
 	if (IsCheckHitGround())
 	{
 		velocity.y = 0.0f;
 		jumpInterval = 0;
+		transform.pos.y = PLAYER_BASE_POS_Y;
 	}
 
 	DebugLog("%f, %f, %f", transform.pos.x, transform.pos.y, transform.pos.z);
@@ -223,7 +227,7 @@ void Player::ChangeState(PlayerState next)
 ***************************************/
 bool Player::IsCheckHitGround()
 {
-	if (velocity.y < 0.0f && transform.pos.y < 0.0f)
+	if (velocity.y < 0.0f && transform.pos.y < PLAYER_BASE_POS_Y)
 		return true;
 
 	return false;

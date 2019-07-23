@@ -65,6 +65,8 @@
 
 #define TARGETPLAYER_MAX	(2)	//一度に参加できるプレイヤーの最大数
 
+#define PLAYER_BASE_POS_Y		(-200.0f)
+
 // 上記２Ｄポリゴン頂点フォーマットに合わせた構造体を定義
 typedef struct
 {
