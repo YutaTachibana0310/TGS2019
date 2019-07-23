@@ -19,6 +19,7 @@ PlayerAttack::PlayerAttack()
 {
 	collider = new BoxCollider3D(BoxCollider3DTag::PlayerAttack, &transform.pos);
 	collider->active = false;
+	collider->SetSize(D3DXVECTOR3(50.0f, 10.0f, 50.0f));
 
 	mesh = new MeshContainer();
 	mesh->Load("data/MODEL/airplane000.x");
@@ -123,6 +124,6 @@ void PlayerAttack::Draw()
 	//transform.scale = D3DXVECTOR3(.0f, .0f, .0f);
 
 #ifdef _DEBUG
-	BoxCollider3D::DrawCollider(collider);
+	//BoxCollider3D::DrawCollider(collider);
 #endif
 }

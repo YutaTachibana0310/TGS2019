@@ -16,6 +16,7 @@
 #include "Framework/ResourceManager.h"
 #include "camera.h"
 #include "Slice.h"
+#include "Framework\BoxCollider3D.h"
 
 /**************************************
 プロトタイプ宣言
@@ -122,6 +123,8 @@ void GameScene::Update(HWND hWnd)
 	}
 
 #endif
+
+	BoxCollider3D::UpdateCollision();
 }
 
 /**************************************

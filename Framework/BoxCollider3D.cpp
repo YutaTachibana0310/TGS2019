@@ -190,7 +190,11 @@ void BoxCollider3D::UpdateCollision()
 			if (!enemy->active)
 				continue;
 
-			player->CheckCollision(enemy);
+			if (player->CheckCollision(enemy))
+			{
+				enemy->isHit = true;
+				enemy->otherPos = *player->pPos;
+			}
 		}
 	}
 }

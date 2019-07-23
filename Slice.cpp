@@ -24,7 +24,7 @@ void		SplitData(SliceData* data, SliceData* up, SliceData* down, Surface surface
 void		SortData(SliceData* data, Surface surface);
 void		CalsLocalVtx(SliceData* data, D3DXMATRIX mtxInv, Enemy* enemy, D3DXVECTOR3 move);
 
-
+#include "GameParticleManager.h"
 
 void SliceEnemy(Enemy* enemy, D3DXVECTOR3 posAtk)
 {
@@ -88,7 +88,7 @@ void SliceEnemy(Enemy* enemy, D3DXVECTOR3 posAtk)
 	new SliceEffect(upData);
 	new SliceEffect(downData);
 
-
+	GameParticleManager::Instance()->SetBloodParticle(downData.posVtx[0] + enemy->transform.pos, downData.posVtx[1] + enemy->transform.pos);
 
 	//// Ø’f–Ê¶¬
 	//Surface surface = CalcSurface(enemy->transform.pos, posAtk);
