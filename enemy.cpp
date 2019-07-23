@@ -51,7 +51,7 @@ Enemy::Enemy()
 	collider->active = true;
 	collider->SetSize(D3DXVECTOR3(100.0f, 50.0f, 100.0f));
 
-	transform.pos = D3DXVECTOR3(ENEMY_INIT_POS_X, ENEMY_INIT_POS_Y, 0.0f);	// ˆÊ’u‚ğ‰Šú‰»
+	transform.pos = D3DXVECTOR3(rand()%1001, rand()%801, 0.0f);	// ˆÊ’u‚ğ‰Šú‰»
 	transform.rot = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	transform.scale = D3DXVECTOR3(1.0f, 1.0f, 1.0f);
 	use = true;
