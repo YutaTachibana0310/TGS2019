@@ -47,6 +47,9 @@ Enemy::Enemy()
 		fileName[ENEMYTYPE_01],					// ファイルの名前
 		&D3DTextureEnemy);			// 読み込むメモリー
 
+	collider = new BoxCollider3D(BoxCollider3DTag::Enemy, &transform.pos);
+	collider->active = true;
+	collider->SetSize(D3DXVECTOR3(100.0f, 50.0f, 100.0f));
 
 	transform.pos = D3DXVECTOR3(ENEMY_INIT_POS_X, ENEMY_INIT_POS_Y, 0.0f);	// 位置を初期化
 	transform.rot = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
@@ -66,14 +69,25 @@ Enemy::Enemy()
 //=============================================================================
 Enemy::~Enemy()
 {
-
+	SAFE_DELETE(collider);
 }
 
+#include "Slice.h"
 //=============================================================================
 // 更新処理
 //=============================================================================
 void Enemy::UpdateEnemy(void)
 {
+	if (!use)
+		return;
+
+
+	if (collider->isHit)
+	{
+		collider->isHit = false;
+		SliceEnemy(this, collider->otherPos);
+		use = false;
+	}
 }
 
 //=============================================================================
@@ -171,10 +185,10 @@ HRESULT Enemy::MakeVertexEnemy(LPDIRECT3DDEVICE9 pDevice)
 			vtx[3].diffuse = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
 
 			// テクスチャ座標の設定
-			vtx[0].tex = D3DXVECTOR2(0.0f, 1.0f);
-			vtx[1].tex = D3DXVECTOR2(0.0f, 0.0f);
-			vtx[2].tex = D3DXVECTOR2(1.0f, 1.0f);
-			vtx[3].tex = D3DXVECTOR2(1.0f, 0.0f);
+			vtx[0].tex = D3DXVECTOR2(0.0f, 0.0f);
+			vtx[1].tex = D3DXVECTOR2(1.0f, 0.0f);
+			vtx[2].tex = D3DXVECTOR2(0.0f, 1.0f);
+			vtx[3].tex = D3DXVECTOR2(1.0f, 1.0f);
 		}
 
 		// 頂点データをアンロックする
@@ -265,4 +279,3 @@ void Enemy::MoveEnemy(D3DXVECTOR3 pos)
 	//	cntFrame = 0;
 	//}
 }
-

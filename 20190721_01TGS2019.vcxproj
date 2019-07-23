@@ -22,7 +22,7 @@
     <VCProjectVersion>15.0</VCProjectVersion>
     <ProjectGuid>{F0B49541-04AA-48F2-A7BE-BE5493DA518D}</ProjectGuid>
     <RootNamespace>My2019072101TGS2019</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.17134.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.17763.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -126,6 +126,8 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="bgmManager.cpp" />
+    <ClCompile Include="BloodParticle.cpp" />
+    <ClCompile Include="BloodParticleController.cpp" />
     <ClCompile Include="camera.cpp" />
     <ClCompile Include="debugTimer.cpp" />
     <ClCompile Include="debugWindow.cpp" />
@@ -151,6 +153,7 @@
     <ClCompile Include="Framework\SkyBox.cpp" />
     <ClCompile Include="Framework\Transform.cpp" />
     <ClCompile Include="Game.cpp" />
+    <ClCompile Include="GameParticleManager.cpp" />
     <ClCompile Include="GameScene.cpp" />
     <ClCompile Include="Ground.cpp" />
     <ClCompile Include="HitPoint.cpp" />
@@ -184,6 +187,7 @@
     <ClCompile Include="PostEffect\SpikeNoiseController.cpp" />
     <ClCompile Include="PostEffect\StrongBlurFilter.cpp" />
     <ClCompile Include="ResultScene.cpp" />
+    <ClCompile Include="Slice.cpp" />
     <ClCompile Include="SliceEffect.cpp" />
     <ClCompile Include="sound.cpp" />
     <ClCompile Include="soundEffectManager.cpp" />
@@ -192,6 +196,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="bgmManager.h" />
+    <ClInclude Include="BloodParticle.h" />
+    <ClInclude Include="BloodParticleController.h" />
     <ClInclude Include="camera.h" />
     <ClInclude Include="debugTimer.h" />
     <ClInclude Include="debugWindow.h" />
@@ -222,6 +228,7 @@
     <ClInclude Include="Framework\SkyBox.h" />
     <ClInclude Include="Framework\Transform.h" />
     <ClInclude Include="Game.h" />
+    <ClInclude Include="GameParticleManager.h" />
     <ClInclude Include="GameScene.h" />
     <ClInclude Include="Ground.h" />
     <ClInclude Include="HitPoint.h" />
@@ -257,6 +264,7 @@
     <ClInclude Include="PostEffect\SpikeNoiseController.h" />
     <ClInclude Include="PostEffect\StrongBlurFilter.h" />
     <ClInclude Include="ResultScene.h" />
+    <ClInclude Include="Slice.h" />
     <ClInclude Include="SliceEffect.h" />
     <ClInclude Include="sound.h" />
     <ClInclude Include="soundEffectManager.h" />

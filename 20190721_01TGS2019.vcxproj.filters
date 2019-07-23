@@ -231,6 +231,9 @@
     <ClCompile Include="SliceEffect.cpp">
       <Filter>ソース ファイル\Slice</Filter>
     </ClCompile>
+    <ClCompile Include="Slice.cpp">
+      <Filter>ソース ファイル\Slice</Filter>
+    </ClCompile>
     <ClCompile Include="PlayerAttack.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
@@ -238,6 +241,15 @@
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="HitPoint.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="GameParticleManager.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="BloodParticle.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="BloodParticleController.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
@@ -446,10 +458,22 @@
     <ClInclude Include="SliceEffect.h">
       <Filter>ヘッダー ファイル\Slice</Filter>
     </ClInclude>
+    <ClInclude Include="Slice.h">
+      <Filter>ヘッダー ファイル\Slice</Filter>
+    </ClInclude>
     <ClInclude Include="PlayerAttack.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="Ground.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="GameParticleManager.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="BloodParticle.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="BloodParticleController.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="HitPoint.h">

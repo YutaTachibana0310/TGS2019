@@ -7,6 +7,7 @@
 
 #include "main.h"
 #include "Framework/Transform.h"
+#include "Framework\BoxCollider3D.h"
 
 //=====================================================
 // É}ÉNÉçíËã`
@@ -42,6 +43,7 @@ public:
 	Transform				transform;
 	VERTEX_3D				*vtx;
 	D3DXMATRIX				mtxWorld;
+	BoxCollider3D			*collider;
 	int						texNum;
 	int						cntFrame;
 	float					move;

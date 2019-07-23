@@ -16,6 +16,8 @@
 #include "Framework/ResourceManager.h"
 #include "camera.h"
 #include "HitPoint.h"
+#include "Slice.h"
+#include "Framework\BoxCollider3D.h"
 
 /**************************************
 プロトタイプ宣言
@@ -45,6 +47,8 @@ const char *FileName =
 };
 SliceData wk;
 
+int no = 0;
+
 #endif
 
 
@@ -62,8 +66,11 @@ void GameScene::Init()
 	player = new Player();
 	skybox = new SkyBox(D3DXVECTOR3(SKYBOX_SIZE*2, SKYBOX_SIZE, SKYBOX_SIZE), D3DXVECTOR2(6.0f, 1.0f));
 	ground = new Ground();
+	particleManager = GameParticleManager::Instance();
 
 	skybox->LoadTexture("data/TEXTURE/skybox.png");
+
+	particleManager->Init();
 
 
 #ifdef _DEBUG
@@ -84,6 +91,9 @@ void GameScene::Uninit()
 	SAFE_DELETE(player);
 	SAFE_DELETE(skybox);
 	SAFE_DELETE(ground);
+
+	particleManager->Uninit();
+	particleManager = NULL;
 }
 
 /**************************************
@@ -106,6 +116,18 @@ void GameScene::Update(HWND hWnd)
 
 
 	UpdateSliceEffect();
+
+	particleManager->Update();
+#ifdef _DEBUG
+	if (GetKeyboardTrigger(DIK_X))
+	{
+		SliceEnemy(enemy[no], player->transform.pos);
+		no = (no + 1) % 16 ;
+	}
+
+#endif
+
+	BoxCollider3D::UpdateCollision();
 }
 
 /**************************************
@@ -132,6 +154,8 @@ void GameScene::Draw()
 	DrawSliceEffect();
 
 	DrawUi();
+
+	particleManager->Draw();
 
 	pDevice->SetRenderState(D3DRS_LIGHTING, true);
 	pDevice->SetRenderState(D3DRS_ZENABLE, true);

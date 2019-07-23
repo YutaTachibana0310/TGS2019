@@ -110,12 +110,10 @@ void SliceEffect::Update()
 	pos += move;
 	time++;
 
-#ifdef _DEBUG
-	if (time > 10)
+	if (time > 100)
 	{
 		delete this;// .use = false;
 	}
-#endif
 
 }
 

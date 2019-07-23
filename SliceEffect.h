@@ -16,8 +16,8 @@ public:
 	D3DXVECTOR3				scl;				// スケール
 	D3DXVECTOR3				rot;
 	D3DXVECTOR3				move;				// 移動量
-	D3DXVECTOR3				posVtx[64];			// 頂点座標
-	D3DXVECTOR2				posUV[64];
+	D3DXVECTOR3				posVtx[10];			// 頂点座標
+	D3DXVECTOR2				posUV[10];
 
 	LPDIRECT3DTEXTURE9		D3DTexture = NULL;
 

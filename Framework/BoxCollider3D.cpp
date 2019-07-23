@@ -165,7 +165,7 @@ void BoxCollider3D::SetPosAddress(D3DXVECTOR3 *pPos)
 ***************************************/
 void BoxCollider3D::UpdateCollision()
 {
-	////PlayerBomber‚ÆEnemy‚ÅÕ“Ë”»’è
+	//PlayerBomber‚ÆEnemy‚ÅÕ“Ë”»’è
 	//for (auto &bomber : checkDictionary[BoxCollider3DTag::PlayerBomber])
 	//{
 	//	if (!bomber->active)
@@ -179,6 +179,24 @@ void BoxCollider3D::UpdateCollision()
 	//		bomber->CheckCollision(enemy);
 	//	}
 	//}
+
+	for (auto &player : checkDictionary[BoxCollider3DTag::PlayerAttack])
+	{
+		if (!player->active)
+			continue;
+
+		for (auto &enemy : checkDictionary[BoxCollider3DTag::Enemy])
+		{
+			if (!enemy->active)
+				continue;
+
+			if (player->CheckCollision(enemy))
+			{
+				enemy->isHit = true;
+				enemy->otherPos = *player->pPos;
+			}
+		}
+	}
 }
 
 /**************************************
