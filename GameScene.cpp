@@ -15,6 +15,7 @@
 #include "camera.h"
 #include "Framework/ResourceManager.h"
 #include "camera.h"
+#include "Slice.h"
 
 /**************************************
 プロトタイプ宣言
@@ -43,6 +44,8 @@ const char *FileName =
 	"data/TEXTURE/dummyeffect.png"
 };
 SliceData wk;
+
+int no = 0;
 
 #endif
 
@@ -103,6 +106,15 @@ void GameScene::Update(HWND hWnd)
 
 
 	UpdateSliceEffect();
+
+#ifdef _DEBUG
+	if (GetKeyboardTrigger(DIK_X))
+	{
+		SliceEnemy(enemy[no], player->transform.pos);
+		no = (no + 1) % 16 ;
+	}
+
+#endif
 }
 
 /**************************************
