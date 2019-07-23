@@ -12,8 +12,8 @@
 マクロ定義
 ***************************************/
 
-static D3DXVECTOR3 initVelocity = D3DXVECTOR3(0.0f, 500.0f, 0.0f);
-static D3DXVECTOR3 lastVelocity = D3DXVECTOR3(0.0f, -700.0f, 0.0f);
+static float initVelocity = 500.0f;
+static float lastVelocity = -700.0f;
 
 /**************************************
 入場処理
@@ -37,11 +37,9 @@ int PlayerJump::OnUpdate(Player* entity)
 	entity->transform.pos += entity->velocity;
 
 	float t = entity->cntFrame / 30.0f;
-	entity->velocity = Easing<D3DXVECTOR3>::GetEasingValue(t, &initVelocity, &lastVelocity, EasingType::InOutCubic);
-	entity->transform.pos += entity->velocity;
+	entity->velocity.y = Easing<float>::GetEasingValue(t, &initVelocity, &lastVelocity, EasingType::InOutCubic);
 
-	//ここの後ろの条件をマップとにする
-	if (entity->velocity.y < 0.0f && entity->transform.pos.y < 0.0f)
+	if(entity->IsCheckHitGround())
 	{
 		entity->ChangeState(PlayerState::IdleState);
 	}

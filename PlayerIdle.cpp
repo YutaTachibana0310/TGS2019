@@ -25,7 +25,9 @@ void PlayerIdle::OnStart(Player* entity)
 ***************************************/
 int PlayerIdle::OnUpdate(Player* entity)
 {
-	if (GetVerticalInput() == 1.0f)
+	entity->jumpInterval++;
+
+	if (GetVerticalInput() == 1.0f && entity->jumpInterval > PLAYER_JUMP_ENABLEFRAME)
 	{
 		entity->ChangeState(JumpState);
 	}

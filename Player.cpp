@@ -10,6 +10,8 @@
 #include "PlayerIdle.h"
 #include "PlayerJump.h"
 
+#include "debugWindow.h"
+
 using namespace std;
 
 /**************************************
@@ -20,7 +22,9 @@ using namespace std;
 
 #define PLAYER_TEX_SIZE_X		(1.0f / PLAYER_ANIM_LOOPMAX)
 #define PLAYER_TEX_SIZE_Y		(1.0f)
-#define PLAYER_MOVE_SPEED		(5.0f)
+#define PLAYER_MOVE_SPEED		(50.0f)
+
+#define PLAYER_ATKINTERVAL		(60)
 
 static const char* TextureName[PlayerTextureMax] = {
 	"data/TEXTURE/PLAYER_ARUKI.png",
@@ -107,6 +111,8 @@ Player::~Player()
 ***************************************/
 void Player::Update()
 {
+	cntFrame++;
+
 	//アニメーション
 	animCount++;
 	if (animCount % PLAYER_ANIM_TIMING == 0)
@@ -122,18 +128,23 @@ void Player::Update()
 		vtxBuff->Unlock();
 	}
 
+	//攻撃判定
+	atkInterval++;
+	if (atkInterval > PLAYER_ATKINTERVAL && GetAttackButtonTrigger())
+	{
+
+	}
+
 	//ステートの更新
 	stateMachine[currentState]->OnUpdate(this);
 
-	//移動
-	float x = GetHorizontalInput();
-	if (x != 0.0f)
+	//移動入力
+	velocity.x = GetHorizontalInput();
+	if (velocity.x != 0.0f)
 	{
-		transform.pos.x += x * PLAYER_MOVE_SPEED;
-
-		if (x == -1.0f)
+		if (velocity.x == -1.0f)
 			transform.rot.y = D3DXToRadian(180.0f);
-		else if (x == 1.0f)
+		else if (velocity.x == 1.0f)
 			transform.rot.y = D3DXToRadian(0.0f);
 
 		if (currentState == PlayerState::IdleState)
@@ -144,6 +155,18 @@ void Player::Update()
 		if (currentState == PlayerState::IdleState)
 			textureID = IdleTexture;
 	}
+
+	//接地判定
+	if (IsCheckHitGround())
+	{
+		velocity.y = 0.0f;
+		jumpInterval = 0;
+	}
+
+	DebugLog("%d, %d, %d", transform.pos.x, transform.pos.y, transform.pos.z);
+
+	//移動処理
+	transform.pos += velocity;
 }
 
 /**************************************
@@ -176,4 +199,15 @@ void Player::ChangeState(PlayerState next)
 {
 	currentState = next;
 	stateMachine[next]->OnStart(this);
+}
+
+/**************************************
+接地判定
+***************************************/
+bool Player::IsCheckHitGround()
+{
+	if (velocity.y < 0.0f && transform.pos.y < 0.0f)
+		return true;
+
+	return false;
 }

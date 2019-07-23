@@ -26,4 +26,6 @@ void UpdateInput(void);
 float GetHorizontalInput();
 float GetVerticalInput();
 
+bool GetAttackButtonTrigger();
+
 #endif

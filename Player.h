@@ -14,7 +14,7 @@
 #include <map>
 
 #define PLAYER_ANIM_LOOPMAX		(10)
-
+#define PLAYER_JUMP_ENABLEFRAME	(5)
 /**************************************
 É}ÉNÉçíËã`
 ***************************************/
@@ -48,6 +48,8 @@ public:
 	void Draw();
 
 	void ChangeState(PlayerState next);
+	bool IsCheckHitGround();
+	void CheckAnimationFinish();
 
 	Transform transform;
 
@@ -65,6 +67,9 @@ public:
 
 	D3DXVECTOR3 velocity;
 	int cntFrame;
+
+	int atkInterval;
+	int jumpInterval;
 };
 
 #endif
