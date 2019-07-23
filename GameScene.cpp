@@ -15,6 +15,7 @@
 #include "camera.h"
 #include "Framework/ResourceManager.h"
 #include "camera.h"
+#include "HitPoint.h"
 #include "Slice.h"
 #include "Framework\BoxCollider3D.h"
 
@@ -56,6 +57,7 @@ int no = 0;
 ***************************************/
 void GameScene::Init()
 {
+	InitUi(0);
 	for (int i = 0; i < ENEMY_MAX; i++)
 	{
 		enemy[i] = new Enemy;
@@ -80,6 +82,7 @@ void GameScene::Init()
 ***************************************/
 void GameScene::Uninit()
 {
+	UninitUi();
 	for (int i = 0; i < ENEMY_MAX; i++)
 	{
 		delete enemy[i];
@@ -149,6 +152,8 @@ void GameScene::Draw()
 	player->Draw();
 
 	DrawSliceEffect();
+
+	DrawUi();
 
 	particleManager->Draw();
 
