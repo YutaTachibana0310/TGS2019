@@ -40,6 +40,12 @@
     <Filter Include="ヘッダー ファイル\PlayerState">
       <UniqueIdentifier>{ffbc60b5-ca90-4a97-b5ac-db99d5b0cb24}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\Slice">
+      <UniqueIdentifier>{a2d88212-84c2-4eff-a6ad-b40d64b527d0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Slice">
+      <UniqueIdentifier>{e96a1f9f-811d-48b7-86e7-20e7a869d269}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="camera.cpp">
@@ -218,6 +224,12 @@
     </ClCompile>
     <ClCompile Include="PlayerIdle.cpp">
       <Filter>ソース ファイル\PlayerState</Filter>
+    </ClCompile>
+    <ClCompile Include="enemy.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="SliceEffect.cpp">
+      <Filter>ソース ファイル\Slice</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -418,6 +430,12 @@
     </ClInclude>
     <ClInclude Include="PlayerIdle.h">
       <Filter>ヘッダー ファイル\PlayerState</Filter>
+    </ClInclude>
+    <ClInclude Include="enemy.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="SliceEffect.h">
+      <Filter>ヘッダー ファイル\Slice</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

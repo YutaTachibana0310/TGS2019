@@ -27,8 +27,12 @@ public:
 	void LoadMesh(const char* tag, const char* path);
 	void ReleaseMesh(const char* tag);
 
+	void LoadTexture(const char* tag, const char* path);
+	void ReleaseTexture(const char* tag);
+
 	//リソース参照処理
 	bool GetMesh(const char* tag, MeshContainer** pOut);
+	bool GetTexture(const char* tag, LPDIRECT3DTEXTURE9* pOut);
 
 	//全リソース解放処理
 	void AllRelease();
@@ -38,6 +42,7 @@ private:
 	~ResourceManager() {}
 
 	std::map<std::string, MeshContainer*> meshPool;
+	std::map<std::string, LPDIRECT3DTEXTURE9> texturePool;
 };
 
 #endif

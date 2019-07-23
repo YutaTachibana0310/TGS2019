@@ -12,6 +12,7 @@
 
 #include "Player.h"
 #include "Framework\SkyBox.h"
+#include "enemy.h"
 
 /**************************************
 É}ÉNÉçíËã`
@@ -30,6 +31,7 @@ public:
 
 	Player *player;
 	SkyBox *skybox;
+	Enemy *enemy;
 };
 
 #endif
