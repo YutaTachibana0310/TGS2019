@@ -12,10 +12,11 @@
 //*****************************************************************************
 // マクロ定義
 //*****************************************************************************
-#define ENEMY_INIT_POS_X		(0.0f)	// エネミーの初期位置
+#define ENEMY_INIT_POS_X		(200.0f)	// エネミーの初期位置
 #define ENEMY_INIT_POS_Y		(0.0f)	// 
 #define ENEMY_SIZE_X			(100)	// エネミーの幅
 #define ENEMY_SIZE_Y			(100)	// エネミーの高さ
+#define ENEMY_MOVE_TIME			(180)	// エネミーの動くフレーム数
 
 //*****************************************************************************
 // 構造体定義
@@ -40,9 +41,10 @@ Enemy::Enemy()
 	//ResourceManager::Instance()->GetTexture("enemy01", &D3DTextureEnemy);
 	//ResourceManager::Instance()->GetTexture("enemy02", &D3DTextureEnemy[ENEMYTYPE_02]);
 	//ResourceManager::Instance()->GetTexture("enemy03", &D3DTextureEnemy[ENEMYTYPE_03]);
-			// テクスチャの読み込み
+	
+	// テクスチャの読み込み
 	D3DXCreateTextureFromFile(pDevice,	// デバイスへのポインタ
-		"data/bullet001.png",					// ファイルの名前
+		fileName[ENEMYTYPE_01],					// ファイルの名前
 		&D3DTextureEnemy);			// 読み込むメモリー
 
 
@@ -50,6 +52,7 @@ Enemy::Enemy()
 	transform.rot = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	transform.scale = D3DXVECTOR3(1.0f, 1.0f, 1.0f);
 	use = true;
+	cntFrame = 0;
 	texNum = ENEMYTYPE_01;
 	D3DVtxBuffEnemy = NULL;
 
@@ -71,7 +74,6 @@ Enemy::~Enemy()
 //=============================================================================
 void Enemy::UpdateEnemy(void)
 {
-	//transform.pos.x += RandomRange(-100.0f,100.0f);
 }
 
 //=============================================================================
@@ -206,13 +208,61 @@ void Enemy::SetVertexEnemy()
 //===============================================================================
 void Enemy::SetEnemy(int type, D3DXVECTOR3 setPos)
 {
-	if (!use)
+ 	if (!use)
 	{
 		use = true;
 		transform.pos = setPos;
 		texNum = type;
+		cntFrame = 0;
 		SetVertexEnemy();
 
 		return;
 	}
 }
+
+//===============================================================================
+// エネミータイプ別の動作
+//===============================================================================
+void Enemy::MoveTypeEnemy(int type)
+{
+	switch (type)
+	{
+	case ENEMYTYPE_01:
+			
+		//MoveEnemy();
+
+		break;
+	case ENEMYTYPE_02:
+		break;
+	case ENEMYTYPE_03:
+		break;
+	}
+}
+
+//===============================================================================
+// エネミーの動作
+//===============================================================================
+void Enemy::MoveEnemy(D3DXVECTOR3 pos)
+{
+	D3DXVECTOR3 vec;
+	float len;
+
+	vec = pos - transform.pos;
+	D3DXVec3Normalize(&vec, &vec);
+
+	transform.pos += vec * 1.5f;
+
+	//if (cntFrame < ENEMY_MOVE_TIME)
+	//{
+	//	transform.pos.x += 2.0f;
+	//}
+	//else if (cntFrame < (ENEMY_MOVE_TIME * 2))
+	//{
+	//	transform.pos.x -= 2.0f;
+	//}
+	//else
+	//{
+	//	cntFrame = 0;
+	//}
+}
+

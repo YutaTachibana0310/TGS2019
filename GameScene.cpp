@@ -15,7 +15,6 @@
 #include "camera.h"
 #include "Framework/ResourceManager.h"
 #include "camera.h"
-#include "light.h"
 #include "Slice.h"
 
 /**************************************
@@ -36,7 +35,7 @@ void DrawSliceEffect();
 /**************************************
 ƒOƒ[ƒoƒ‹•Ï”
 ***************************************/
-Enemy *enemy[16];
+Enemy *enemy[ENEMY_MAX];
 
 #ifdef _DEBUG
 
@@ -56,15 +55,14 @@ int no = 0;
 ***************************************/
 void GameScene::Init()
 {
-	ResourceManager::Instance()->LoadTexture("enemy01", "data/bullet001.png");
-
-	for (int i = 0; i < 16; i++)
+	for (int i = 0; i < ENEMY_MAX; i++)
 	{
 		enemy[i] = new Enemy;
 	}
 
 	player = new Player();
 	skybox = new SkyBox(D3DXVECTOR3(SKYBOX_SIZE*2, SKYBOX_SIZE, SKYBOX_SIZE), D3DXVECTOR2(6.0f, 1.0f));
+	ground = new Ground();
 
 	skybox->LoadTexture("data/TEXTURE/skybox.png");
 
@@ -78,13 +76,14 @@ void GameScene::Init()
 ***************************************/
 void GameScene::Uninit()
 {
-	for (int i = 0; i < 16; i++)
+	for (int i = 0; i < ENEMY_MAX; i++)
 	{
 		delete enemy[i];
 	}
 
 	SAFE_DELETE(player);
 	SAFE_DELETE(skybox);
+	SAFE_DELETE(ground);
 }
 
 /**************************************
@@ -92,17 +91,19 @@ void GameScene::Uninit()
 ***************************************/
 void GameScene::Update(HWND hWnd)
 {
-	for (int i = 0; i < 16; i++)
+	Camera *camera = GetCameraAdr();
+	camera->target = camera->pos = player->transform.pos;
+	camera->pos.z = CAMERA_TARGETLENGTH_Z;
+	camera->target.y = camera->pos.y = 0.0f;
+
+	for (int i = 0; i < ENEMY_MAX; i++)
 	{
+		enemy[i]->MoveEnemy(player->transform.pos);
 		enemy[i]->UpdateEnemy();
 	}
 
 	player->Update();
 
-	Camera *camera = GetCameraAdr();
-	camera->target = camera->pos = player->transform.pos;
-	camera->pos.z = CAMERA_TARGETLENGTH_Z;
-	camera->target.y = camera->pos.y = 0.0f;
 
 	UpdateSliceEffect();
 
@@ -121,23 +122,26 @@ void GameScene::Update(HWND hWnd)
 ***************************************/
 void GameScene::Draw()
 {
+	LPDIRECT3DDEVICE9 pDevice = GetDevice();
+
 	skybox->Draw();
 
-	for (int i = 0; i < 16; i++)
+	pDevice->SetRenderState(D3DRS_LIGHTING, false);
+	pDevice->SetRenderState(D3DRS_ZENABLE, false);
+	ground->Draw();
+
+	for (int i = 0; i < ENEMY_MAX; i++)
 	{
 		enemy[i]->DrawEnemy();
 	}
 
-	LPDIRECT3DDEVICE9 pDevice = GetDevice();
-
-
-	pDevice->SetRenderState(D3DRS_LIGHTING, false);
 
 	player->Draw();
 
-	pDevice->SetRenderState(D3DRS_LIGHTING, true);
-
 	DrawSliceEffect();
+
+	pDevice->SetRenderState(D3DRS_LIGHTING, true);
+	pDevice->SetRenderState(D3DRS_ZENABLE, true);
 }
 
 
@@ -201,12 +205,12 @@ void UpdateSliceEffect()
 
 
 	}
-	if (GetKeyboardPress(DIK_RIGHT))
-	{
-		GetCameraAdr()->pos.x += 10.0f;
-		GetCameraAdr()->pos.z += 10.0f;
+	//if (GetKeyboardPress(DIK_RIGHT))
+	//{
+	//	GetCameraAdr()->pos.x += 10.0f;
+	//	GetCameraAdr()->pos.z += 10.0f;
 
-	}
+	//}
 
 	//if (GetKeyboardTrigger(DIK_Z))
 	//{

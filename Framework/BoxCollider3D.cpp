@@ -165,20 +165,20 @@ void BoxCollider3D::SetPosAddress(D3DXVECTOR3 *pPos)
 ***************************************/
 void BoxCollider3D::UpdateCollision()
 {
-	//PlayerBomberとEnemyで衝突判定
-	for (auto &bomber : checkDictionary[BoxCollider3DTag::PlayerBomber])
-	{
-		if (!bomber->active)
-			continue;
+	////PlayerBomberとEnemyで衝突判定
+	//for (auto &bomber : checkDictionary[BoxCollider3DTag::PlayerBomber])
+	//{
+	//	if (!bomber->active)
+	//		continue;
 
-		for (auto &enemy : checkDictionary[BoxCollider3DTag::Enemy])
-		{
-			if (!enemy->active)
-				continue;
+	//	for (auto &enemy : checkDictionary[BoxCollider3DTag::Enemy])
+	//	{
+	//		if (!enemy->active)
+	//			continue;
 
-			bomber->CheckCollision(enemy);
-		}
-	}
+	//		bomber->CheckCollision(enemy);
+	//	}
+	//}
 }
 
 /**************************************
@@ -230,8 +230,9 @@ void BoxCollider3D::DrawCollider(BoxCollider3D *collider)
 	pDevice->GetMaterial(&matDef);
 
 	//レンダーステートとマテリアルを設定
-	pDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
+	//pDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
 	pDevice->SetMaterial(&material);
+	pDevice->SetFVF(FVF_VERTEX_3D);
 	pDevice->SetTexture(0, NULL);
 
 	//行列計算
