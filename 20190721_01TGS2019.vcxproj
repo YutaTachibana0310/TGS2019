@@ -126,6 +126,8 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="bgmManager.cpp" />
+    <ClCompile Include="BloodParticle.cpp" />
+    <ClCompile Include="BloodParticleController.cpp" />
     <ClCompile Include="camera.cpp" />
     <ClCompile Include="debugTimer.cpp" />
     <ClCompile Include="debugWindow.cpp" />
@@ -151,6 +153,7 @@
     <ClCompile Include="Framework\SkyBox.cpp" />
     <ClCompile Include="Framework\Transform.cpp" />
     <ClCompile Include="Game.cpp" />
+    <ClCompile Include="GameParticleManager.cpp" />
     <ClCompile Include="GameScene.cpp" />
     <ClCompile Include="Ground.cpp" />
     <ClCompile Include="imgui\imgui.cpp" />
@@ -192,6 +195,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="bgmManager.h" />
+    <ClInclude Include="BloodParticle.h" />
+    <ClInclude Include="BloodParticleController.h" />
     <ClInclude Include="camera.h" />
     <ClInclude Include="debugTimer.h" />
     <ClInclude Include="debugWindow.h" />
@@ -222,6 +227,7 @@
     <ClInclude Include="Framework\SkyBox.h" />
     <ClInclude Include="Framework\Transform.h" />
     <ClInclude Include="Game.h" />
+    <ClInclude Include="GameParticleManager.h" />
     <ClInclude Include="GameScene.h" />
     <ClInclude Include="Ground.h" />
     <ClInclude Include="imgui\imconfig.h" />
