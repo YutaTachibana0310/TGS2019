@@ -11,6 +11,8 @@
 #include "Framework\IStateScene.h"
 
 #include "Player.h"
+#include "Framework\SkyBox.h"
+
 /**************************************
 É}ÉNÉçíËã`
 ***************************************/
@@ -27,6 +29,7 @@ public:
 	void Draw() override;
 
 	Player *player;
+	SkyBox *skybox;
 };
 
 #endif
