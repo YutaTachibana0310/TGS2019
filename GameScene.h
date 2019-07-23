@@ -9,7 +9,11 @@
 
 #include "main.h"
 #include "Framework\IStateScene.h"
+
+#include "Player.h"
+#include "Framework\SkyBox.h"
 #include "enemy.h"
+
 /**************************************
 É}ÉNÉçíËã`
 ***************************************/
@@ -25,6 +29,8 @@ public:
 	void Update(HWND hWnd) override;
 	void Draw() override;
 
+	Player *player;
+	SkyBox *skybox;
 	Enemy *enemy;
 };
 
