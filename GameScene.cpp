@@ -7,6 +7,7 @@
 #ifdef _DEBUG
 
 #include "input.h"
+#include "game.h"
 
 #endif
 
@@ -123,6 +124,11 @@ void GameScene::Update(HWND hWnd)
 	{
 		SliceEnemy(enemy[no], player->transform.pos);
 		no = (no + 1) % 16 ;
+	}
+
+	if (GetKeyboardTrigger(DIK_H))
+	{
+		ChangeScene(SceneTitle);
 	}
 
 #endif
