@@ -47,6 +47,8 @@ Enemy::Enemy()
 		fileName[ENEMYTYPE_01],					// ファイルの名前
 		&D3DTextureEnemy);			// 読み込むメモリー
 
+	collider = new BoxCollider3D(BoxCollider3DTag::Enemy, &transform.pos);
+	collider->active = true;
 
 	transform.pos = D3DXVECTOR3(ENEMY_INIT_POS_X, ENEMY_INIT_POS_Y, 0.0f);	// 位置を初期化
 	transform.rot = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
@@ -74,6 +76,7 @@ Enemy::~Enemy()
 //=============================================================================
 void Enemy::UpdateEnemy(void)
 {
+
 }
 
 //=============================================================================
@@ -265,4 +268,3 @@ void Enemy::MoveEnemy(D3DXVECTOR3 pos)
 	//	cntFrame = 0;
 	//}
 }
-
