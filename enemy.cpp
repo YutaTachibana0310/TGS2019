@@ -169,10 +169,10 @@ HRESULT Enemy::MakeVertexEnemy(LPDIRECT3DDEVICE9 pDevice)
 			vtx[3].diffuse = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
 
 			// テクスチャ座標の設定
-			vtx[0].tex = D3DXVECTOR2(0.0f, 1.0f);
-			vtx[1].tex = D3DXVECTOR2(0.0f, 0.0f);
-			vtx[2].tex = D3DXVECTOR2(1.0f, 1.0f);
-			vtx[3].tex = D3DXVECTOR2(1.0f, 0.0f);
+			vtx[0].tex = D3DXVECTOR2(0.0f, 0.0f);
+			vtx[1].tex = D3DXVECTOR2(1.0f, 0.0f);
+			vtx[2].tex = D3DXVECTOR2(0.0f, 1.0f);
+			vtx[3].tex = D3DXVECTOR2(1.0f, 1.0f);
 		}
 
 		// 頂点データをアンロックする

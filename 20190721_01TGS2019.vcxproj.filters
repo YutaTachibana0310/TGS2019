@@ -231,6 +231,9 @@
     <ClCompile Include="SliceEffect.cpp">
       <Filter>ソース ファイル\Slice</Filter>
     </ClCompile>
+    <ClCompile Include="Slice.cpp">
+      <Filter>ソース ファイル\Slice</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="camera.h">
@@ -435,6 +438,9 @@
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="SliceEffect.h">
+      <Filter>ヘッダー ファイル\Slice</Filter>
+    </ClInclude>
+    <ClInclude Include="Slice.h">
       <Filter>ヘッダー ファイル\Slice</Filter>
     </ClInclude>
   </ItemGroup>
