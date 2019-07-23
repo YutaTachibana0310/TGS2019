@@ -23,5 +23,9 @@ HRESULT InitInput(HINSTANCE hInst, HWND hWnd);
 void UninitInput(void);
 void UpdateInput(void);
 
+float GetHorizontalInput();
+float GetVerticalInput();
+
+bool GetAttackButtonTrigger();
 
 #endif
