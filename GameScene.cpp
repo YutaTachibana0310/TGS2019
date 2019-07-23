@@ -84,6 +84,7 @@ void GameScene::Update(HWND hWnd)
 	Camera *camera = GetCameraAdr();
 	camera->target = camera->pos = player->transform.pos;
 	camera->pos.z = CAMERA_TARGETLENGTH_Z;
+	camera->target.y = camera->pos.y = 0.0f;
 
 	enemy->UpdateEnemy();
 
