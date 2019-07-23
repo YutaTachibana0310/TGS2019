@@ -29,6 +29,8 @@ public:
 	void Init() override;
 	void Update() override;
 
+	void SetBloodParticle(D3DXVECTOR3 right, D3DXVECTOR3 left);
+
 private:
 	GameParticleManager() {}
 	~GameParticleManager() {}

@@ -17,7 +17,7 @@ typedef BaseParticleController Base;
 ***************************************/
 void BloodParticleController::Init()
 {
-	Base::MakeUnitBuffer(&D3DXVECTOR2(10.0f, 10.0f), &D3DXVECTOR2(8.0f, 8.0f));
+	Base::MakeUnitBuffer(&D3DXVECTOR2(100.0f, 100.0f), &D3DXVECTOR2(8.0f, 8.0f));
 	Base::LoadTexture("data/TEXTURE/particle00.png");
 
 	particleContainer.resize(1024);

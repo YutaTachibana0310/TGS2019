@@ -137,6 +137,8 @@ void GameScene::Draw()
 
 	DrawSliceEffect();
 
+	particleManager->Draw();
+
 	pDevice->SetRenderState(D3DRS_LIGHTING, true);
 	pDevice->SetRenderState(D3DRS_ZENABLE, true);
 }

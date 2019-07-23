@@ -32,7 +32,7 @@ void BloodParticle::Init()
 ***************************************/
 void BloodParticle::Update()
 {
-	cntFrame = 0;
+	cntFrame++;
 
 	float t = (float)cntFrame / lifeFrame;
 	Animation(t);

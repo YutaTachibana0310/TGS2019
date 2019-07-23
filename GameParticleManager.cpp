@@ -61,6 +61,15 @@ void GameParticleManager::Update(void)
 	Base::Update();
 }
 
+/**************************************
+エフェクトセット処理
+***************************************/
+void GameParticleManager::SetBloodParticle(D3DXVECTOR3 right, D3DXVECTOR3 left)
+{
+	BloodParticleController *entity = static_cast<BloodParticleController*>(controllers[BloodParticle]);
+	entity->SetEmitter(right, left);
+}
+
 #ifdef GAMEPARTICLE_USE_DEBUG
 /**************************************
 デバッグウィンドウ
@@ -69,6 +78,10 @@ void GameParticleManager::DrawDebugWindow(void)
 {
 	BeginDebugWindow("GameParticle");
 
+	if (DebugButton("Blood"))
+	{
+		SetBloodParticle(D3DXVECTOR3(50.0f, 0.0f, 0.0f), D3DXVECTOR3(-50.0f, 0.0f, 0.0f));
+	}
 
 	EndDebugWindow("GameParticle");
 }
