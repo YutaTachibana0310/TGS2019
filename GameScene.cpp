@@ -62,8 +62,11 @@ void GameScene::Init()
 	player = new Player();
 	skybox = new SkyBox(D3DXVECTOR3(SKYBOX_SIZE*2, SKYBOX_SIZE, SKYBOX_SIZE), D3DXVECTOR2(6.0f, 1.0f));
 	ground = new Ground();
+	particleManager = GameParticleManager::Instance();
 
 	skybox->LoadTexture("data/TEXTURE/skybox.png");
+
+	particleManager->Init();
 
 
 #ifdef _DEBUG
@@ -83,6 +86,9 @@ void GameScene::Uninit()
 	SAFE_DELETE(player);
 	SAFE_DELETE(skybox);
 	SAFE_DELETE(ground);
+
+	particleManager->Uninit();
+	particleManager = NULL;
 }
 
 /**************************************
@@ -104,6 +110,8 @@ void GameScene::Update(HWND hWnd)
 
 
 	UpdateSliceEffect();
+
+	particleManager->Update();
 }
 
 /**************************************

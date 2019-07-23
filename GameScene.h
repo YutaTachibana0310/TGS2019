@@ -14,6 +14,7 @@
 #include "Framework\SkyBox.h"
 #include "enemy.h"
 #include "Ground.h"
+#include "GameParticleManager.h"
 
 /**************************************
 É}ÉNÉçíËã`
@@ -33,6 +34,7 @@ public:
 	Player *player;
 	SkyBox *skybox;
 	Ground *ground;
+	GameParticleManager *particleManager;
 };
 
 #endif
