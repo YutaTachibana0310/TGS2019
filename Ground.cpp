@@ -51,7 +51,7 @@ Ground::Ground()
 	D3DXCreateTextureFromFile(pDevice, "data/TEXTURE/ground.png", &texture);
 	D3DXCreateTextureFromFile(pDevice, "data/TEXTURE/ground2.png", &texture2);
 
-	transform.pos.y = -100.0f -GROUND_SIZE_Y / 2.0f;
+	transform.pos.y = PLAYER_BASE_POS_Y -100.0f -GROUND_SIZE_Y / 2.0f;
 }
 
 /**************************************

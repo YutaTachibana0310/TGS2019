@@ -90,6 +90,11 @@ void GameScene::Uninit()
 ***************************************/
 void GameScene::Update(HWND hWnd)
 {
+	Camera *camera = GetCameraAdr();
+	camera->target = camera->pos = player->transform.pos;
+	camera->pos.z = CAMERA_TARGETLENGTH_Z;
+	camera->target.y = camera->pos.y = 0.0f;
+
 	for (int i = 0; i < 16; i++)
 	{
 		enemy[i]->UpdateEnemy();
@@ -97,10 +102,6 @@ void GameScene::Update(HWND hWnd)
 
 	player->Update();
 
-	Camera *camera = GetCameraAdr();
-	camera->target = camera->pos = player->transform.pos;
-	camera->pos.z = CAMERA_TARGETLENGTH_Z;
-	camera->target.y = camera->pos.y = 0.0f;
 
 	UpdateSliceEffect();
 }
@@ -193,12 +194,12 @@ void UpdateSliceEffect()
 
 
 	}
-	if (GetKeyboardPress(DIK_RIGHT))
-	{
-		GetCameraAdr()->pos.x += 10.0f;
-		GetCameraAdr()->pos.z += 10.0f;
+	//if (GetKeyboardPress(DIK_RIGHT))
+	//{
+	//	GetCameraAdr()->pos.x += 10.0f;
+	//	GetCameraAdr()->pos.z += 10.0f;
 
-	}
+	//}
 
 	//if (GetKeyboardTrigger(DIK_Z))
 	//{
