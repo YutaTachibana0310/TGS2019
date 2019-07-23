@@ -35,7 +35,7 @@ void DrawSliceEffect();
 /**************************************
 ƒOƒ[ƒoƒ‹•Ï”
 ***************************************/
-Enemy *enemy[16];
+Enemy *enemy[ENEMY_MAX];
 
 #ifdef _DEBUG
 
@@ -53,9 +53,7 @@ SliceData wk;
 ***************************************/
 void GameScene::Init()
 {
-	ResourceManager::Instance()->LoadTexture("enemy01", "data/bullet001.png");
-
-	for (int i = 0; i < 16; i++)
+	for (int i = 0; i < ENEMY_MAX; i++)
 	{
 		enemy[i] = new Enemy;
 	}
@@ -75,7 +73,7 @@ void GameScene::Init()
 ***************************************/
 void GameScene::Uninit()
 {
-	for (int i = 0; i < 16; i++)
+	for (int i = 0; i < ENEMY_MAX; i++)
 	{
 		delete enemy[i];
 	}
@@ -89,8 +87,9 @@ void GameScene::Uninit()
 ***************************************/
 void GameScene::Update(HWND hWnd)
 {
-	for (int i = 0; i < 16; i++)
+	for (int i = 0; i < ENEMY_MAX; i++)
 	{
+		enemy[i]->MoveEnemy(player->transform.pos);
 		enemy[i]->UpdateEnemy();
 	}
 
@@ -111,7 +110,7 @@ void GameScene::Draw()
 {
 	skybox->Draw();
 
-	for (int i = 0; i < 16; i++)
+	for (int i = 0; i < ENEMY_MAX; i++)
 	{
 		enemy[i]->DrawEnemy();
 	}
