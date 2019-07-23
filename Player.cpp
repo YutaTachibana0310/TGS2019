@@ -5,6 +5,7 @@
 //
 //=====================================
 #include "Player.h"
+#include "input.h"
 
 /**************************************
 マクロ定義
@@ -14,6 +15,7 @@
 #define PLAYER_ANIM_LOOPMAX		(10)
 #define PLAYER_TEX_SIZE_X		(1.0f / PLAYER_ANIM_LOOPMAX)
 #define PLAYER_TEX_SIZE_Y		(1.0f)
+#define PLAYER_MOVE_SPEED		(5.0f)
 
 static const char* TextureName[PlayerTextureMax] = {
 	"data/TEXTURE/PLAYER_ARUKI.png",
@@ -65,6 +67,7 @@ Player::Player()
 		D3DXCreateTextureFromFile(pDevice, TextureName[i], &textures[i]);
 	}
 
+	textureID = IdleTexture;
 }
 
 /**************************************
@@ -86,6 +89,7 @@ Player::~Player()
 ***************************************/
 void Player::Update()
 {
+	//アニメーション
 	animCount++;
 	if (animCount % PLAYER_ANIM_TIMING == 0)
 	{
@@ -99,6 +103,26 @@ void Player::Update()
 		pVtx[3].tex = D3DXVECTOR2((animIndex + 1) * PLAYER_TEX_SIZE_X, 1.0f);
 		vtxBuff->Unlock();
 	}
+
+	//移動
+	float x = GetHorizontalInput();
+	if (x != 0.0f)
+	{
+		transform.pos.x += x * PLAYER_MOVE_SPEED;
+
+		if (x == -1.0f)
+			transform.rot.y = D3DXToRadian(180.0f);
+		else if (x == 1.0f)
+			transform.rot.y = D3DXToRadian(0.0f);
+
+		if (textureID == IdleTexture)
+			textureID = RunTexture;
+	}
+	else
+	{
+		if (textureID == RunTexture)
+			textureID = IdleTexture;
+	}
 }
 
 /**************************************
@@ -108,8 +132,10 @@ void Player::Draw()
 {
 	LPDIRECT3DDEVICE9 pDevice = GetDevice();
 
+	pDevice->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
+
 	pDevice->SetFVF(FVF_VERTEX_BILLBOARD);
-	pDevice->SetTexture(0, textures[textureIndex]);
+	pDevice->SetTexture(0, textures[textureID]);
 	pDevice->SetStreamSource(0, vtxBuff, 0, sizeof(VERTEX_BILLBOARD));
 
 	D3DXMATRIX mtxWorld;
@@ -118,4 +144,6 @@ void Player::Draw()
 	pDevice->SetTransform(D3DTS_WORLD, &mtxWorld);
 
 	pDevice->DrawPrimitive(D3DPT_TRIANGLESTRIP, 0, NUM_POLYGON);
+
+	pDevice->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
 }

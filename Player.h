@@ -8,7 +8,10 @@
 #define _PLAYER_H_
 
 #include "main.h"
+#include "Framework\IStateMachine.h"
+
 #include <vector>
+#include <map>
 
 /**************************************
 É}ÉNÉçíËã`
@@ -49,7 +52,7 @@ public:
 
 
 	int currentState;
-	int textureIndex;
+	int textureID;
 
 	int animCount;
 	int animIndex;

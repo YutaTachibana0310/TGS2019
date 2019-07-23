@@ -72,3 +72,44 @@ void UpdateInput(void)
 	//ゲームパッド更新処理
 	UpdatePad();
 }
+
+//=============================================================================
+// 水平方向の入力
+//=============================================================================
+float GetHorizontalInput()
+{
+	//キーボード優先
+	if (GetKeyboardPress(DIK_LEFT))
+		return -1.0f;
+	else if (GetKeyboardPress(DIK_RIGHT))
+		return 1.0f;
+
+	//ゲームパッド
+	if (IsButtonPressed(0, BUTTON_LEFT))
+		return -1.0f;
+	else if (IsButtonPressed(0, BUTTON_RIGHT))
+		return 1.0f;
+
+	return 0.0f;
+
+}
+
+//=============================================================================
+// 垂直方向の入力
+//=============================================================================
+float GetVerticalInput()
+{
+	//キーボード優先
+	if (GetKeyboardPress(DIK_DOWN))
+		return -1.0f;
+	else if (GetKeyboardPress(DIK_UP))
+		return 1.0f;
+
+	//ゲームパッド
+	if (IsButtonPressed(0, BUTTON_DOWN))
+		return -1.0f;
+	else if (IsButtonPressed(0, BUTTON_UP))
+		return 1.0f;
+
+	return 0.0f;
+}
