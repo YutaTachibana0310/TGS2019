@@ -9,7 +9,7 @@
 
 #include "main.h"
 #include "Framework\IStateScene.h"
-
+#include "enemy.h"
 /**************************************
 É}ÉNÉçíËã`
 ***************************************/
@@ -24,6 +24,8 @@ public:
 	void Uninit() override;
 	void Update(HWND hWnd) override;
 	void Draw() override;
+
+	Enemy *enemy;
 };
 
 #endif

@@ -13,6 +13,9 @@
 
 #include "SliceEffect.h"
 #include "GameScene.h"
+#include "Framework/ResourceManager.h"
+#include "camera.h"
+#include "light.h"
 
 /**************************************
 プロトタイプ宣言
@@ -48,6 +51,10 @@ SliceData wk;
 ***************************************/
 void GameScene::Init()
 {
+	ResourceManager::Instance()->LoadTexture("enemy01", "data/bullet001.png");
+
+	enemy = new Enemy;
+
 #ifdef _DEBUG
 	InitSliceData();
 #endif
@@ -58,7 +65,7 @@ void GameScene::Init()
 ***************************************/
 void GameScene::Uninit()
 {
-
+	delete enemy;
 }
 
 /**************************************
@@ -66,6 +73,7 @@ void GameScene::Uninit()
 ***************************************/
 void GameScene::Update(HWND hWnd)
 {
+	enemy->UpdateEnemy();
 
 	UpdateSliceEffect();
 }
@@ -75,6 +83,8 @@ void GameScene::Update(HWND hWnd)
 ***************************************/
 void GameScene::Draw()
 {
+	enemy->DrawEnemy();
+
 	DrawSliceEffect();
 }
 
