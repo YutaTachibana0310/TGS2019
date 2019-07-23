@@ -10,6 +10,7 @@
 #include "main.h"
 #include "Framework\IStateScene.h"
 
+#include "Player.h"
 /**************************************
 É}ÉNÉçíËã`
 ***************************************/
@@ -24,6 +25,8 @@ public:
 	void Uninit() override;
 	void Update(HWND hWnd) override;
 	void Draw() override;
+
+	Player *player;
 };
 
 #endif

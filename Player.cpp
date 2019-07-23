@@ -9,7 +9,11 @@
 /**************************************
 ƒ}ƒNƒ’è‹`
 ***************************************/
-#define PLAYER_SIZE		(30.0f)
+#define PLAYER_SIZE				(100.0f)
+#define PLAYER_ANIM_TIMING		(5)
+#define PLAYER_ANIM_LOOPMAX		(10)
+#define PLAYER_TEX_SIZE_X		(1.0f / PLAYER_ANIM_LOOPMAX)
+#define PLAYER_TEX_SIZE_Y		(1.0f)
 
 static const char* TextureName[PlayerTextureMax] = {
 	"data/TEXTURE/PLAYER_ARUKI.png",
@@ -60,6 +64,7 @@ Player::Player()
 	{
 		D3DXCreateTextureFromFile(pDevice, TextureName[i], &textures[i]);
 	}
+
 }
 
 /**************************************
@@ -81,7 +86,19 @@ Player::~Player()
 ***************************************/
 void Player::Update()
 {
+	animCount++;
+	if (animCount % PLAYER_ANIM_TIMING == 0)
+	{
+		animIndex = WrapAround(0, PLAYER_ANIM_LOOPMAX, animIndex + 1);
 
+		VERTEX_BILLBOARD *pVtx;
+		vtxBuff->Lock(0, 0, (void**)&pVtx, 0);
+		pVtx[0].tex = D3DXVECTOR2(animIndex * PLAYER_TEX_SIZE_X, 0.0f);
+		pVtx[1].tex = D3DXVECTOR2((animIndex + 1) * PLAYER_TEX_SIZE_X, 0.0f);
+		pVtx[2].tex = D3DXVECTOR2(animIndex * PLAYER_TEX_SIZE_X, 1.0f);
+		pVtx[3].tex = D3DXVECTOR2((animIndex + 1) * PLAYER_TEX_SIZE_X, 1.0f);
+		vtxBuff->Unlock();
+	}
 }
 
 /**************************************
@@ -89,5 +106,16 @@ void Player::Update()
 ***************************************/
 void Player::Draw()
 {
+	LPDIRECT3DDEVICE9 pDevice = GetDevice();
 
+	pDevice->SetFVF(FVF_VERTEX_BILLBOARD);
+	pDevice->SetTexture(0, textures[textureIndex]);
+	pDevice->SetStreamSource(0, vtxBuff, 0, sizeof(VERTEX_BILLBOARD));
+
+	D3DXMATRIX mtxWorld;
+	transform.CalcWorldMtx(&mtxWorld);
+
+	pDevice->SetTransform(D3DTS_WORLD, &mtxWorld);
+
+	pDevice->DrawPrimitive(D3DPT_TRIANGLESTRIP, 0, NUM_POLYGON);
 }

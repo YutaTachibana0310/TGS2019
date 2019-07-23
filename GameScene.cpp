@@ -19,7 +19,7 @@
 ***************************************/
 void GameScene::Init()
 {
-
+	player = new Player();
 }
 
 /**************************************
@@ -27,7 +27,7 @@ void GameScene::Init()
 ***************************************/
 void GameScene::Uninit()
 {
-
+	SAFE_DELETE(player);
 }
 
 /**************************************
@@ -35,7 +35,7 @@ void GameScene::Uninit()
 ***************************************/
 void GameScene::Update(HWND hWnd)
 {
-
+	player->Update();
 }
 
 /**************************************
@@ -43,5 +43,11 @@ void GameScene::Update(HWND hWnd)
 ***************************************/
 void GameScene::Draw()
 {
+	LPDIRECT3DDEVICE9 pDevice = GetDevice();
 
+	pDevice->SetRenderState(D3DRS_LIGHTING, false);
+
+	player->Draw();
+
+	pDevice->SetRenderState(D3DRS_LIGHTING, true);
 }

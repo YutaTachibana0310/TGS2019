@@ -29,7 +29,7 @@ enum PlayerTexture
 	AttackTexture,
 	PlayerTextureMax
 };
-
+#include "Framework\MeshContainer.h"
 /**************************************
 ƒNƒ‰ƒX’è‹`
 ***************************************/
@@ -47,8 +47,12 @@ public:
 	std::vector<LPDIRECT3DTEXTURE9> textures;
 	LPDIRECT3DVERTEXBUFFER9 vtxBuff;
 
+
 	int currentState;
 	int textureIndex;
+
+	int animCount;
+	int animIndex;
 };
 
 #endif
