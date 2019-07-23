@@ -13,7 +13,7 @@
 /**************************************
 マクロ定義
 ***************************************/
-
+#include "Framework\MeshContainer.h"
 /**************************************
 クラス定義
 ***************************************/
@@ -32,6 +32,11 @@ public:
 	int cntFrame;
 	Transform transform;
 	BoxCollider3D *collider;
+
+	MeshContainer *mesh;
+
+	LPDIRECT3DTEXTURE9 texture;
+	LPDIRECT3DVERTEXBUFFER9 vtxBuff;
 };
 
 #endif

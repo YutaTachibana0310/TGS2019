@@ -230,8 +230,9 @@ void BoxCollider3D::DrawCollider(BoxCollider3D *collider)
 	pDevice->GetMaterial(&matDef);
 
 	//レンダーステートとマテリアルを設定
-	pDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
+	//pDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
 	pDevice->SetMaterial(&material);
+	pDevice->SetFVF(FVF_VERTEX_3D);
 	pDevice->SetTexture(0, NULL);
 
 	//行列計算
