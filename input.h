@@ -24,6 +24,6 @@ void UninitInput(void);
 void UpdateInput(void);
 
 float GetHorizontalInput();
-float GetVeritcalInput();
+float GetVerticalInput();
 
 #endif

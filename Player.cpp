@@ -7,12 +7,17 @@
 #include "Player.h"
 #include "input.h"
 
+#include "PlayerIdle.h"
+#include "PlayerJump.h"
+
+using namespace std;
+
 /**************************************
 マクロ定義
 ***************************************/
 #define PLAYER_SIZE				(100.0f)
 #define PLAYER_ANIM_TIMING		(5)
-#define PLAYER_ANIM_LOOPMAX		(10)
+
 #define PLAYER_TEX_SIZE_X		(1.0f / PLAYER_ANIM_LOOPMAX)
 #define PLAYER_TEX_SIZE_Y		(1.0f)
 #define PLAYER_MOVE_SPEED		(5.0f)
@@ -68,6 +73,13 @@ Player::Player()
 	}
 
 	textureID = IdleTexture;
+
+	//ステートマシン作成
+	stateMachine[IdleState] = new PlayerIdle();
+	stateMachine[JumpState] = new PlayerJump();
+
+	currentState = IdleState;
+	ChangeState(IdleState);
 }
 
 /**************************************
@@ -80,6 +92,12 @@ Player::~Player()
 		SAFE_RELEASE(texture);
 	}
 	textures.clear();
+
+	for (auto& pair : stateMachine)
+	{
+		SAFE_DELETE(pair.second);
+	}
+	stateMachine.clear();
 
 	SAFE_RELEASE(vtxBuff);
 }
@@ -104,6 +122,9 @@ void Player::Update()
 		vtxBuff->Unlock();
 	}
 
+	//ステートの更新
+	stateMachine[currentState]->OnUpdate(this);
+
 	//移動
 	float x = GetHorizontalInput();
 	if (x != 0.0f)
@@ -115,12 +136,12 @@ void Player::Update()
 		else if (x == 1.0f)
 			transform.rot.y = D3DXToRadian(0.0f);
 
-		if (textureID == IdleTexture)
+		if (currentState == PlayerState::IdleState)
 			textureID = RunTexture;
 	}
 	else
 	{
-		if (textureID == RunTexture)
+		if (currentState == PlayerState::IdleState)
 			textureID = IdleTexture;
 	}
 }
@@ -146,4 +167,13 @@ void Player::Draw()
 	pDevice->DrawPrimitive(D3DPT_TRIANGLESTRIP, 0, NUM_POLYGON);
 
 	pDevice->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
+}
+
+/**************************************
+状態ん遷移処理
+***************************************/
+void Player::ChangeState(PlayerState next)
+{
+	currentState = next;
+	stateMachine[next]->OnStart(this);
 }

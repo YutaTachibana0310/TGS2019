@@ -13,6 +13,8 @@
 #include <vector>
 #include <map>
 
+#define PLAYER_ANIM_LOOPMAX		(10)
+
 /**************************************
 マクロ定義
 ***************************************/
@@ -32,7 +34,7 @@ enum PlayerTexture
 	AttackTexture,
 	PlayerTextureMax
 };
-#include "Framework\MeshContainer.h"
+
 /**************************************
 クラス定義
 ***************************************/
@@ -45,17 +47,24 @@ public:
 	void Update();
 	void Draw();
 
+	void ChangeState(PlayerState next);
+
 	Transform transform;
 
 	std::vector<LPDIRECT3DTEXTURE9> textures;
 	LPDIRECT3DVERTEXBUFFER9 vtxBuff;
 
 
-	int currentState;
+	PlayerState currentState;
 	int textureID;
 
 	int animCount;
 	int animIndex;
+
+	std::map<PlayerState, IStateMachine<Player>*> stateMachine;
+
+	D3DXVECTOR3 velocity;
+	int cntFrame;
 };
 
 #endif
