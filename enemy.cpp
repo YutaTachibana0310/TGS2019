@@ -7,7 +7,8 @@
 #include "main.h"
 #include "enemy.h"
 #include "camera.h"
-
+#include "Framework/ResourceManager.h"
+#include "input.h"
 //*****************************************************************************
 // マクロ定義
 //*****************************************************************************
@@ -23,12 +24,10 @@
 //*****************************************************************************
 // プロトタイプ宣言
 //*****************************************************************************
-HRESULT MakeVertexEnemy(int eno);
 
 //*****************************************************************************
 // グローバル変数
 //*****************************************************************************
-
 
 //=============================================================================
 // コンストラクタ
@@ -37,16 +36,24 @@ Enemy::Enemy()
 {
 	LPDIRECT3DDEVICE9 pDevice = GetDevice();
 
+	// テクスチャの設定
+	D3DTextureEnemy[ENEMYTYPE_MIN] = NULL;
+	ResourceManager::Instance()->GetTexture("enemy01", &D3DTextureEnemy[ENEMYTYPE_01]);
+	ResourceManager::Instance()->GetTexture("enemy02", &D3DTextureEnemy[ENEMYTYPE_02]);
+	ResourceManager::Instance()->GetTexture("enemy03", &D3DTextureEnemy[ENEMYTYPE_03]);
+
 	for (int i = 0; i < ENEMY_MAX; i++)
 	{
-		pos[i] = D3DXVECTOR3(ENEMY_INIT_POS_X, ENEMY_INIT_POS_Y, 0.0f);	// 位置を初期化
-		rot[i] = D3DXVECTOR3(0.0f, 0.0f, 0.0f);		// 回転を初期化
-		use[i] = false;					// ライフを初期化
-
+		transform[i].pos = D3DXVECTOR3(ENEMY_INIT_POS_X, ENEMY_INIT_POS_Y, 0.0f);	// 位置を初期化
+		transform[i].rot = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+		transform[i].scale= D3DXVECTOR3(1.0f, 1.0f, 1.0f);
+		use[i] = false;
+		texNum[i] = ENEMYTYPE_01;
+		D3DVtxBuffEnemy[i] = NULL;
+	
 		// 頂点情報の作成
-		MakeVertexEnemy(pDevice);
+		MakeVertexEnemy(i, pDevice);
 	}
-
 }
 
 //=============================================================================
@@ -61,7 +68,24 @@ Enemy::~Enemy()
 // 更新処理
 //=============================================================================
 void Enemy::UpdateEnemy(void)
-{	
+{
+	if (GetKeyboardTrigger(DIK_A))
+	{
+		SetEnemy(1, transform->pos + D3DXVECTOR3(50.0f, 0.0f, 0.0f));
+	}
+
+	if (GetKeyboardPress(DIK_LEFT))
+	{
+		transform[0].pos.x -= 1.0f;
+	}
+
+	for (int i = 0; i < ENEMY_MAX; i++)
+	{
+		if (use[i])
+		{
+			SetVertexEnemy(i);
+		}
+	}
 }
 
 //=============================================================================
@@ -71,6 +95,9 @@ void Enemy :: DrawEnemy()
 {
 	LPDIRECT3DDEVICE9 pDevice = GetDevice();
 	D3DXMATRIX mtxView, mtxScale, mtxTranslate;
+
+	// ラインティングを無効にする
+	pDevice->SetRenderState(D3DRS_LIGHTING, FALSE);
 
 	for (int i = 0; i < ENEMY_MAX; i++)
 	{
@@ -83,35 +110,35 @@ void Enemy :: DrawEnemy()
 			D3DXMatrixIdentity(&mtxWorld);
 
 			// ポリゴンを正面に向ける
-			mtxWorld._11 = mtxView._11;
-			mtxWorld._12 = mtxView._21;
-			mtxWorld._13 = mtxView._31;
-			mtxWorld._21 = mtxView._12;
-			mtxWorld._22 = mtxView._22;
-			mtxWorld._23 = mtxView._32;
-			mtxWorld._31 = mtxView._13;
-			mtxWorld._32 = mtxView._23;
-			mtxWorld._33 = mtxView._33;
+			//mtxWorld._11 = mtxView._11;
+			//mtxWorld._12 = mtxView._21;
+			//mtxWorld._13 = mtxView._31;
+			//mtxWorld._21 = mtxView._12;
+			//mtxWorld._22 = mtxView._22;
+			//mtxWorld._23 = mtxView._32;
+			//mtxWorld._31 = mtxView._13;
+			//mtxWorld._32 = mtxView._23;
+			//mtxWorld._33 = mtxView._33;
 
 			// スケールを反映
-			D3DXMatrixScaling(&mtxScale, scl[i].x, scl[i].y, scl[i].z);
+			D3DXMatrixScaling(&mtxScale, transform[i].scale.x, transform[i].scale.y, transform[i].scale.z);
 			D3DXMatrixMultiply(&mtxWorld, &mtxWorld, &mtxScale);
 
 			// 移動を反映
-			D3DXMatrixTranslation(&mtxTranslate, pos[i].x, pos[i].y, pos[i].z);
+			D3DXMatrixTranslation(&mtxTranslate, transform[i].pos.x, transform[i].pos.y, transform[i].pos.z);
 			D3DXMatrixMultiply(&mtxWorld, &mtxWorld, &mtxTranslate);
 
 			// ワールドマトリックスの設定
 			pDevice->SetTransform(D3DTS_WORLD, &mtxWorld);
 
 			// 頂点バッファをデバイスのデータストリームにバインド
-			pDevice->SetStreamSource(0, D3DVtxBuffEnemy, 0, sizeof(VERTEX_3D));
+			pDevice->SetStreamSource(0, D3DVtxBuffEnemy[i], 0, sizeof(VERTEX_3D));
 
 			// 頂点フォーマットの設定
 			pDevice->SetFVF(FVF_VERTEX_3D);
 
 			// テクスチャの設定
-			pDevice->SetTexture(0, D3DTextureEnemy);
+			pDevice->SetTexture(0, D3DTextureEnemy[texNum[i]]);
 
 			// ポリゴンの描画
 			pDevice->DrawPrimitive(D3DPT_TRIANGLESTRIP, (i * NUM_VERTEX), NUM_POLYGON);
@@ -122,14 +149,14 @@ void Enemy :: DrawEnemy()
 //===============================================================================
 // 頂点情報の作成
 //===============================================================================
-HRESULT Enemy::MakeVertexEnemy(LPDIRECT3DDEVICE9 pDevice)
+HRESULT Enemy::MakeVertexEnemy(int eno, LPDIRECT3DDEVICE9 pDevice)
 {
 	// オブジェクトの頂点バッファを生成
-	if (FAILED(pDevice->CreateVertexBuffer(sizeof(VERTEX_3D) * NUM_VERTEX * ENEMY_MAX,	// 頂点データ用に確保するバッファサイズ(バイト単位)
+	if (FAILED(pDevice->CreateVertexBuffer(sizeof(VERTEX_3D) * NUM_VERTEX,	// 頂点データ用に確保するバッファサイズ(バイト単位)
 		D3DUSAGE_WRITEONLY,			// 頂点バッファの使用法　
 		FVF_VERTEX_3D,				// 使用する頂点フォーマット
 		D3DPOOL_MANAGED,			// リソースのバッファを保持するメモリクラスを指定
-		&D3DVtxBuffEnemy,	// 頂点バッファインターフェースへのポインタ
+		&D3DVtxBuffEnemy[eno],			// 頂点バッファインターフェースへのポインタ
 		NULL)))						// NULLに設定
 	{
 		return E_FAIL;
@@ -137,15 +164,13 @@ HRESULT Enemy::MakeVertexEnemy(LPDIRECT3DDEVICE9 pDevice)
 
 	{//頂点バッファの中身を埋める
 		// 頂点データの範囲をロックし、頂点バッファへのポインタを取得
-		D3DVtxBuffEnemy->Lock(0, 0, (void**)&vtx, 0);
-
-		for (int i = 0; i < ENEMY_MAX; i++, vtx += 4)
+		D3DVtxBuffEnemy[eno]->Lock(0, 0, (void**)&vtx, 0);
 		{
 			// 頂点座標の設定
-			vtx[0].vtx = D3DXVECTOR3(-ENEMY_SIZE_X / 2, -ENEMY_SIZE_Y / 2, 0.0f);
-			vtx[1].vtx = D3DXVECTOR3(-ENEMY_SIZE_X / 2, ENEMY_SIZE_Y / 2, 0.0f);
-			vtx[2].vtx = D3DXVECTOR3(ENEMY_SIZE_X / 2, -ENEMY_SIZE_Y / 2, 0.0f);
-			vtx[3].vtx = D3DXVECTOR3(ENEMY_SIZE_X / 2, ENEMY_SIZE_Y / 2, 0.0f);
+			vtx[0].vtx = D3DXVECTOR3(-ENEMY_SIZE_X, ENEMY_SIZE_Y, 0.0f);
+			vtx[1].vtx = D3DXVECTOR3(ENEMY_SIZE_X, ENEMY_SIZE_Y, 0.0f);
+			vtx[2].vtx = D3DXVECTOR3(-ENEMY_SIZE_X, -ENEMY_SIZE_Y, 0.0f);
+			vtx[3].vtx = D3DXVECTOR3(ENEMY_SIZE_X, -ENEMY_SIZE_Y, 0.0f);
 
 			// 法線の設定
 			vtx[0].nor = D3DXVECTOR3(0.0f, 0.0f, -1.0f);
@@ -164,12 +189,49 @@ HRESULT Enemy::MakeVertexEnemy(LPDIRECT3DDEVICE9 pDevice)
 			vtx[1].tex = D3DXVECTOR2(0.0f, 0.0f);
 			vtx[2].tex = D3DXVECTOR2(1.0f, 1.0f);
 			vtx[3].tex = D3DXVECTOR2(1.0f, 0.0f);
-
 		}
+
 		// 頂点データをアンロックする
-		D3DVtxBuffEnemy->Unlock();
+		D3DVtxBuffEnemy[eno]->Unlock();
 	}
 
 	return S_OK;
 }
 
+//=================================================================================
+// 頂点座標の設定
+//=================================================================================
+void Enemy::SetVertexEnemy(int index)
+{
+	// 頂点データの範囲をロックし、頂点バッファへのポインタを取得
+	D3DVtxBuffEnemy[index]->Lock(0, 0, (void**)&vtx, 0);
+
+	// 頂点座標の設定
+	vtx[0].vtx = D3DXVECTOR3(-ENEMY_SIZE_X, ENEMY_SIZE_Y, 0.0f);
+	vtx[1].vtx = D3DXVECTOR3(ENEMY_SIZE_X, ENEMY_SIZE_Y, 0.0f);
+	vtx[2].vtx = D3DXVECTOR3(-ENEMY_SIZE_X, -ENEMY_SIZE_Y, 0.0f);
+	vtx[3].vtx = D3DXVECTOR3(ENEMY_SIZE_X, -ENEMY_SIZE_Y, 0.0f);
+
+	// 頂点データをアンロックする
+	D3DVtxBuffEnemy[index]->Unlock();
+}
+
+
+//===============================================================================
+// エネミーの設置
+//===============================================================================
+void Enemy::SetEnemy(int type, D3DXVECTOR3 setPos)
+{
+	for (int i = 0; i < ENEMY_MAX; i++)
+	{
+		if (!use[i])
+		{
+			use[i] = true;
+			transform[i].pos = setPos;
+			texNum[i] = type;
+			SetVertexEnemy(i);
+
+			return;
+		}
+	}
+}

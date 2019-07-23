@@ -5,6 +5,9 @@
 //
 //=====================================
 #include "GameScene.h"
+#include "Framework/ResourceManager.h"
+#include "camera.h"
+#include "light.h"
 
 /**************************************
 ƒ}ƒNƒ’è‹`
@@ -19,7 +22,9 @@
 ***************************************/
 void GameScene::Init()
 {
+	ResourceManager::Instance()->LoadTexture("enemy01", "data/bullet001.png");
 
+	enemy = new Enemy;
 }
 
 /**************************************
@@ -27,7 +32,7 @@ void GameScene::Init()
 ***************************************/
 void GameScene::Uninit()
 {
-
+	delete enemy;
 }
 
 /**************************************
@@ -35,7 +40,7 @@ void GameScene::Uninit()
 ***************************************/
 void GameScene::Update(HWND hWnd)
 {
-
+	enemy->UpdateEnemy();
 }
 
 /**************************************
@@ -43,5 +48,5 @@ void GameScene::Update(HWND hWnd)
 ***************************************/
 void GameScene::Draw()
 {
-
+	enemy->DrawEnemy();
 }
