@@ -15,6 +15,7 @@
 #include "camera.h"
 #include "Framework/ResourceManager.h"
 #include "camera.h"
+#include "HitPoint.h"
 
 /**************************************
 プロトタイプ宣言
@@ -52,6 +53,7 @@ SliceData wk;
 ***************************************/
 void GameScene::Init()
 {
+	InitUi(0);
 	for (int i = 0; i < ENEMY_MAX; i++)
 	{
 		enemy[i] = new Enemy;
@@ -73,6 +75,7 @@ void GameScene::Init()
 ***************************************/
 void GameScene::Uninit()
 {
+	UninitUi();
 	for (int i = 0; i < ENEMY_MAX; i++)
 	{
 		delete enemy[i];
@@ -127,6 +130,8 @@ void GameScene::Draw()
 	player->Draw();
 
 	DrawSliceEffect();
+
+	DrawUi();
 
 	pDevice->SetRenderState(D3DRS_LIGHTING, true);
 	pDevice->SetRenderState(D3DRS_ZENABLE, true);

@@ -10,7 +10,7 @@
 //*****************************************************************************
 // マクロ定義
 //*****************************************************************************
-#define	TEXTURE_STAGE1_TITLE	("data/TEX/HP_flame.png")	// 読み込むテクスチャファイル名
+#define	TEXTURE_STAGE1_TITLE	("data/TGS_DATA/HP_flame.png")	// 読み込むテクスチャファイル名
 #define	TEXTURE_STAGE0_TITLE	("data/TEX/gauge.png")	// 読み込むテクスチャファイル名
 
 
