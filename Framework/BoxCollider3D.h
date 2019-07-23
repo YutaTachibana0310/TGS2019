@@ -51,6 +51,9 @@ public:
 	//アクティブ判定
 	bool active;
 
+	bool isHit;
+	D3DXVECTOR3 otherPos;
+
 #ifdef BOXCOLLIDER3D_USE_DEBUG
 	//デバッグ用描画処理
 	static void DrawCollider(BoxCollider3D *collider);

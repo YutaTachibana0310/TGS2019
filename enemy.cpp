@@ -49,6 +49,7 @@ Enemy::Enemy()
 
 	collider = new BoxCollider3D(BoxCollider3DTag::Enemy, &transform.pos);
 	collider->active = true;
+	collider->SetSize(D3DXVECTOR3(100.0f, 50.0f, 100.0f));
 
 	transform.pos = D3DXVECTOR3(ENEMY_INIT_POS_X, ENEMY_INIT_POS_Y, 0.0f);	// ˆÊ’u‚ð‰Šú‰»
 	transform.rot = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
@@ -68,15 +69,25 @@ Enemy::Enemy()
 //=============================================================================
 Enemy::~Enemy()
 {
-
+	SAFE_DELETE(collider);
 }
 
+#include "Slice.h"
 //=============================================================================
 // XVˆ—
 //=============================================================================
 void Enemy::UpdateEnemy(void)
 {
+	if (!use)
+		return;
 
+
+	if (collider->isHit)
+	{
+		collider->isHit = false;
+		SliceEnemy(this, collider->otherPos);
+		use = false;
+	}
 }
 
 //=============================================================================
